@@ -21,10 +21,10 @@ export class Home {
     touchDrag: true,
     pullDrag: true,
     dots: true,
-    navSpeed: 700,
-    navText: ['<i class="fa fa-home"></i>', 'next'],
-    margin : 10 ,
-
+    navSpeed: 600,
+    navText: ['<', '>'],
+    margin: 10,
+    // i want to make margin at y axis 20
     responsive: {
       0: {
         items: 1,
@@ -71,23 +71,26 @@ export class Home {
       },
     });
   }
-    getAllProducts() {
+getAllProducts() {
+  this.isLoading = true;
 
-    this.isLoading = true;
+  setTimeout(() => {
     this.productservices.getAllProducts({ limit: 40, page: 1 }).subscribe({
-      next: (response: { data: Product[]; }) => {
-        this.isLoading = false;
+      next: (response: { data: Product[] }) => {
         console.log(response.data);
         this.products = response.data;
+        this.isLoading = false;
       },
-
       error: (error: any) => {
         this.isLoading = false;
-        // !!!
         console.log(error);
       },
     });
-    }
+  }, 2000);
+}
+
+
+
   ngOnInit(){
     this.getAllProducts();
     this.getAllCategories();
