@@ -36,51 +36,18 @@
       <ul
         class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-100 md:dark:bg-gray-100 dark:border-gray-700"
       >
+      @for (item of pages; track $index) {
         <li>
           <a
-            routerLink="/home"
+            routerLink="{{item.path}}"
             routerLinkActive="active"
             class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
             aria-current="page"
-            >Home</a
+            >{{item.title}}</a
           >
         </li>
-        <li>
-          <a
-            routerLink="/cart"
-            routerLinkActive="active"
-            class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
-            aria-current="page"
-            >Cart</a
-          >
-        </li>
-        <li>
-          <a
-            routerLink="/products"
-            routerLinkActive="active"
-            class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
-            aria-current="page"
-            >Products</a
-          >
-        </li>
-        <li>
-          <a
-            routerLink="/categories"
-            routerLinkActive="active"
-            class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
-            aria-current="page"
-            >Categories</a
-          >
-        </li>
-        <li>
-          <a
-            routerLink="/brands"
-            routerLinkActive="active"
-            class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
-            aria-current="page"
-            >Brands</a
-          >
-        </li>
+      }
+
       </ul>
     </div>
     
@@ -91,15 +58,17 @@
       <ul
         class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-100 md:dark:bg-gray-100 dark:border-gray-700"
       >
+      @for (item of authpages; track $index) {
         <li>
           <a
-            routerLink="/home"
+            routerLink="{{item.path}}"
             routerLinkActive="active"
             class="hover:cursor-pointer block py-2 px-3 text-gray-300 bg-gray-300 rounded-sm md:bg-transparent md:text-gray-300 md:p-0 dark:text-gray-400 md:dark:gray-300"
             aria-current="page"
-            >Sign Out</a
+            >{{item.title}}</a
           >
         </li>
+      }
 
       </ul>
     </div>
