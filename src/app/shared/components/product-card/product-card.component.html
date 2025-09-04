@@ -1,1 +1,50 @@
-<p>product-card works!</p>
+<div class="max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+  <!-- Image -->
+  <img [src]="product.imageCover" alt="{{ product.title }}" class="w-full h-48 object-cover" />
+
+  <!-- Content -->
+  <div class="p-4 space-y-2">
+    <!-- Title -->
+    <h2 class="text-lg font-semibold text-gray-800 truncate">{{ product.title }}</h2>
+
+    <!-- Rating -->
+    <div class="flex items-center text-yellow-500">
+      @for (star of [].constructor(5); let i = $index; track i) {
+        @if (i < product.ratingsAverage) {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path
+              d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z" />
+          </svg>
+        } @else {
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" viewBox="0 0 20 20">
+            <path
+              d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z" />
+          </svg>
+        }
+      }
+      <span class="ml-2 text-sm text-gray-500">({{ product.ratingsQuantity }} reviews)</span>
+    </div>
+
+    <!-- Price -->
+    <div class="flex items-center space-x-2">
+      @if (product.priceAfterDiscount) {
+        <span class="text-xl font-bold text-green-600">
+          {{ product.priceAfterDiscount | currency }}
+        </span>
+        <span class="line-through text-gray-500">
+          {{ product.price | currency }}
+        </span>
+      } @else {
+        <span class="text-xl font-bold text-gray-800">
+          {{ product.price | currency }}
+        </span>
+      }
+    </div>
+
+    <!-- Button -->
+    <button (click)="addToCart(product)"
+      class="cursor-pointer mt-3 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition">
+      Add to Cart
+    </button>
+  </div>
+</div>
