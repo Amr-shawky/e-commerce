@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavbarComponent {
   pages:{title:string, path:string}[] = [
-    {title: 'Home', path: '/'},
+    {title: 'Home', path: '/home'},
     {title: 'Products', path: '/products'},
     {title: 'Cart', path: '/cart'},
     {title: 'Categories', path: '/categories'},
