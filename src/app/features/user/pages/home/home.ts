@@ -12,7 +12,7 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
   imports: [NgIcon, ProductCardComponent, CarouselModule],
   templateUrl: './home.html',
   styleUrl: './home.css',
-    viewProviders: [provideIcons({faCalendarCheck })]
+    viewProviders: [provideIcons({faCalendarCheck})]
 })
 export class Home {
     customOptions: OwlOptions = {
