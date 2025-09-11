@@ -4,10 +4,11 @@ import { CommonModule, CurrencyPipe } from '@angular/common';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { faHeart } from '@ng-icons/font-awesome/regular';
 import { faSolidCartShopping } from '@ng-icons/font-awesome/solid';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-product-card',
-  imports: [CurrencyPipe, NgIcon,CommonModule],
+  imports: [CurrencyPipe, NgIcon, CommonModule, RouterLink],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.css',
   viewProviders: [provideIcons({ faHeart, faSolidCartShopping })],

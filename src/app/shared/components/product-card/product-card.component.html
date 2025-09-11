@@ -1,5 +1,6 @@
 <div
-  class="group relative max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+  [routerLink]="['/product', product.id, product.slug]"
+  class="cursor-pointer hover:scale-105 transition-transform duration-300 group relative max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl"
 >
   <!-- Image Wrapper -->
   <div class="relative">
@@ -12,10 +13,10 @@
     <!-- Wishlist Heart -->
     <button
       (click)="addToWishlist(product)"
-      class="absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition
+      class="cursor-pointer absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition
              group-hover:bg-red-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
     >
-      <i class="fa-solid fa-heart transition group-hover:text-white"></i>
+      <i class="cursor-pointer fa-solid fa-heart transition group-hover:text-white"></i>
     </button>
   </div>
 

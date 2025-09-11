@@ -7,7 +7,7 @@ export const routes: Routes = [
     { path:'products',loadComponent:() =>import('./features/user/pages/products/products').then(m => m.Products)},
     { path:'login', loadComponent:() =>import('./features/user/pages/login/login').then(m => m.Login)},
     { path:'register', loadComponent:() =>import('./features/user/pages/register/register').then(m => m.Register)},
-    { path:'product/:id', loadComponent:() =>import('./features/user/pages/product-details/product-details').then(m => m.ProductDetails)},
+    { path:'product/:id/:slug', loadComponent:() =>import('./features/user/pages/product-details/product-details').then(m => m.ProductDetails)},
     { path:'cart', loadComponent:() =>import('./features/user/pages/cart/cart').then(m => m.Cart)},
     { path:'brands', loadComponent:() =>import('./features/user/pages/brands/brands').then(m => m.Brands)},
     { path:'categories', loadComponent:() =>import('./features/user/pages/categories/categories').then(m => m.Categories)},
