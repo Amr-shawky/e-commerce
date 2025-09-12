@@ -6,26 +6,207 @@
     [formGroup]="registerform"
     class="px-10 mx-auto py-8"
   >
-    @for (item of ['name', 'email', 'password', 'rePassword', 'phone']; track
-    $index) {
+    <!-- Name -->
     <div class="relative z-0 w-full mb-5 group">
       <input
-        formControlName="{{ item }}"
+        formControlName="name"
         type="text"
-        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-green-500 focus:outline-none focus:ring-0 focus:border-green-600 peer"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
         placeholder=" "
         required
       />
       <label
-        for="floating_{{ item }}"
-        class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-        >{{ item | titlecase }}</label
+        for="floating_name"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Name</label
       >
+      @if(getnamecontroller?.touched) {
+        @if(getnamecontroller?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Name is required</div>
+            </div>
+          </div>
+        }
+        @if(getnamecontroller?.getError('pattern') || getnamecontroller?.getError('minlength')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Name is invalid</div>
+            </div>
+          </div>
+        }
+      }
     </div>
-    }
-    <button
+
+    <!-- Email -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="email"
+        type="email"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_email"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Email</label
+      >
+      @if(getemailcontroller?.touched) {
+        @if(getemailcontroller?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>email is required</div>
+            </div>
+          </div>
+        }
+        @if(getemailcontroller?.getError('email')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>email is invalid</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="password"
+        type="password"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_password"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Password</label
+      >
+      @if(getpasswordcontroller?.touched) {
+        @if(getpasswordcontroller?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Password is required</div>
+            </div>
+          </div>
+        }
+        @if(getpasswordcontroller?.getError('pattern')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Password must be at least 8 characters, include uppercase, lowercase, number, and special character</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Re-Password -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="rePassword"
+        type="password"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_rePassword"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >RePassword</label
+      >
+      @if(getrePasswordcontroller?.touched) {
+        @if(registerform.errors?.['mismatch'] && getrePasswordcontroller?.touched) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Passwords do not match</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Phone -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="phone"
+        type="text"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+      />
+      <label
+        for="floating_phone"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Phone</label
+      >
+      @if(getphonecontroller?.touched) {
+        @if(getphonecontroller?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Phone is required</div>
+            </div>
+          </div>
+        }
+        @if(getphonecontroller?.getError('pattern')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Phone is invalid</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Submit -->
+    <button [disabled]="registerform.invalid"
       type="submit"
-      class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+      class="disabled:opacity-50 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
     >
       Submit
     </button>
