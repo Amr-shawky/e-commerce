@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TitleCasePipe } from '@angular/common';
+import { AuthService } from '../../../../core/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +12,26 @@ import { TitleCasePipe } from '@angular/common';
   styleUrls: ['./register.css']
 })
 export class Register {
+  constructor(private authService: AuthService, private toastr: ToastrService) {}
+
+  isloading :boolean = false;
+  register(value: any) {
+    this.isloading = true;
+    this.authService.register(value).subscribe({
+      next: (response) => {
+        console.log("registration successful", response);
+        this.toastr.success('Registration successful!', 'Success');
+        this.isloading = false;
+      },
+      error: (error) => {
+        console.log("registration failed", error);
+        if(error?.error?.message){
+          this.toastr.error(error.error.message || 'Registration failed. Please try again.', 'Error');
+        }
+        this.isloading = false;
+      }
+    });
+  }
   // Custom validator for matching password and rePassword
   matchPasswordValidator(control: import('@angular/forms').AbstractControl) {
     const form = control as FormGroup;
@@ -56,6 +78,7 @@ export class Register {
       this.registerform.markAllAsTouched();
       return;
     }
+    this.register(this.registerform.value);
     console.log(this.registerform.value);
     console.log(this.registerform);
     console.log({
