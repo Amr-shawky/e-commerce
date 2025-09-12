@@ -2,11 +2,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../../../core/models/api.interface';
 import { ProductService } from './../../../../core/services/product.service';
 import { Component, OnInit } from '@angular/core';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+
 
 @Component({
   selector: 'app-product-details',
-  imports: [],
- templateUrl: './product-details.html',
+  imports: [CarouselModule],
+  templateUrl: './product-details.html',
   styleUrls: ['./product-details.css']
 })
 
@@ -20,6 +22,20 @@ export class ProductDetails implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute
   ) {}
+carouselOptions = {
+  loop: true,
+  margin: 10,
+  nav: true,
+  dots: true,
+  items: 1,
+  autoplay: true,
+  autoplayTimeout: 2000,
+  autoplayHoverPause: true,
+  navText: [
+    '<i class="fa-regular fa-circle-left text-2xl"></i>',
+    '<i class="fa-regular fa-circle-right text-2xl"></i>'
+  ]
+};
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
