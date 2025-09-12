@@ -73,8 +73,6 @@ export class Home {
   }
 getAllProducts() {
   this.isLoading = true;
-
-  setTimeout(() => {
     this.productservices.getAllProducts({ limit: 40, page: 1 }).subscribe({
       next: (response: { data: Product[] }) => {
         console.log(response.data);
@@ -86,7 +84,7 @@ getAllProducts() {
         console.log(error);
       },
     });
-  }, 2000);
+
 }
 
 
