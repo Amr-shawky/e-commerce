@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +13,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.css']
 })
 export class Register {
-  constructor(private authService: AuthService, private toastr: ToastrService) {}
+  constructor(private authService: AuthService, 
+    private toastr: ToastrService,
+    private router : Router
+  ) {}
 
   isloading :boolean = false;
   register(value: any) {
@@ -22,6 +26,8 @@ export class Register {
         console.log("registration successful", response);
         this.toastr.success('Registration successful!', 'Success');
         this.isloading = false;
+        this.router.navigate(['/home']);
+
       },
       error: (error) => {
         console.log("registration failed", error);
