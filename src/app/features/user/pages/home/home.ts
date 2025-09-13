@@ -57,6 +57,7 @@ export class Home {
     private productservices: ProductService,
     @Inject(CategoryService) private categoryService: CategoryService
   ){}
+  
    getAllCategories() {
   
     this.categoryService.getAllCategories({}).subscribe({
