@@ -4,6 +4,7 @@ import { TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { Response } from '../../../../core/models/api.interface';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 export class Register {
   constructor(private authService: AuthService, 
     private toastr: ToastrService,
-    private router : Router
+    private router : Router,
   ) {}
 
   isloading :boolean = false;
@@ -25,6 +26,9 @@ export class Register {
       next: (response) => {
         console.log("registration successful", response);
         this.toastr.success('Registration successful!', 'Success');
+        this.authService.decodeToken(response.token);
+        this.registerform.reset();
+        this.authService.isLogin.next(true);
         this.isloading = false;
         this.router.navigate(['/home']);
 

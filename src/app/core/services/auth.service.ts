@@ -108,7 +108,7 @@ export class AuthService {
   logOut(){
     this.isLogin.next(false);
     localStorage.removeItem('token');
-  
+    this.cookies.delete('token');
 
     // !!! navigate login (home , product)
     this.router.navigate(['/login']);
