@@ -1,7 +1,3 @@
-    <ng-icon name="faCalendarCheck" />
-
- <div class="mb-6 text-gray-700 text-lg font-medium">popular categories</div>
-
 <owl-carousel-o [options]="customOptions" >
   @for (slide of categories; track slide._id) {
     <ng-template carouselSlide [id]="slide._id">
@@ -18,8 +14,6 @@
     </ng-template>
   }
 </owl-carousel-o>
-
-<div class="mt-6 text-gray-600 text-sm">products</div>
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3">
 
