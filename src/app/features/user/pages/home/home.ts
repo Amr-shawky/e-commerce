@@ -1,7 +1,8 @@
 import { CategoryService } from './../../../../core/services/category.service';
 import { ProductService } from './../../../../core/services/product.service';
 import { Component, Inject } from '@angular/core';
-import { NgIcon, provideIcons } from '@ng-icons/core';
+import {provideIcons } from '@ng-icons/core';
+// NgIcon,
 import {faCalendarCheck} from '@ng-icons/font-awesome/regular'
 import { ProductCardComponent } from "../../../../shared/components/product-card/product-card.component";
 import { Product ,Category} from '../../../../core/models/api.interface';
@@ -9,7 +10,8 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-home',
-  imports: [NgIcon, ProductCardComponent, CarouselModule],
+  imports: [ProductCardComponent, CarouselModule],
+  // NgIcon, 
   templateUrl: './home.html',
   styleUrl: './home.css',
     viewProviders: [provideIcons({faCalendarCheck})]

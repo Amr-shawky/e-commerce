@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TitleCasePipe } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -9,7 +8,7 @@ import { Response } from '../../../../core/models/api.interface';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [TitleCasePipe, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
