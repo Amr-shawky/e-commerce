@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartResponse } from '../models/api.interface';
 import { HttpClient } from '@angular/common/http';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
+  private cookies = inject(CookieService) ;
+
   baseUrl = `https://ecommerce.routemisr.com/api/v1`;
   endPoint = `/cart`;
 
@@ -19,7 +22,7 @@ export class CartService {
       { productId },
       {
         headers: {
-          token: localStorage.getItem('token') || '',
+          token: this.cookies.get('token') || '',
         },
       }
     );
@@ -29,7 +32,7 @@ export class CartService {
   getCart(): Observable<CartResponse> {
     return this.http.get<CartResponse>(`${this.baseUrl}${this.endPoint}`, {
       headers: {
-        token: localStorage.getItem('token') || '',
+        token: this.cookies.get('token') || '',
       },
     });
   }
@@ -44,7 +47,7 @@ export class CartService {
       { count },
       {
         headers: {
-          token: localStorage.getItem('token') || '',
+          token: this.cookies.get('token') || '',
         },
       }
     );
@@ -56,7 +59,7 @@ export class CartService {
       `${this.baseUrl}${this.endPoint}/${productId}`,
       {
         headers: {
-          token: localStorage.getItem('token') || '',
+          token: this.cookies.get('token') || '',
         },
       }
     );
@@ -66,7 +69,7 @@ export class CartService {
   clearCart(): Observable<any> {
     return this.http.delete(`${this.baseUrl}${this.endPoint}`, {
       headers: {
-        token: localStorage.getItem('token') || '',
+        token: this.cookies.get('token') || '',
       },
     });
   
@@ -86,7 +89,7 @@ export class CartService {
       },
       {
         headers: {
-          token: localStorage.getItem('token') || '',
+          token: this.cookies.get('token') || '',
         },
       }
     );

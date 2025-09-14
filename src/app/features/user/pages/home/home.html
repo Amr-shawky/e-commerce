@@ -1,3 +1,5 @@
+  <app-spinner [isLoading]="isCartUpdated"></app-spinner>
+
 <owl-carousel-o [options]="customOptions" >
   @for (slide of categories; track slide._id) {
     <ng-template carouselSlide [id]="slide._id">

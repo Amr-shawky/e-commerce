@@ -1,1 +1,149 @@
-<p>cart works!</p>
+<div class="relative overflow-x-auto p-6 bg-gray-50 min-h-screen">
+  <h1 class="text-3xl font-bold mb-4 text-gray-800">🛒 Cart Page</h1>
+
+  <!-- Spinner يظهر فوق المحتوى لو العمليات التانية شغالة -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+
+  <!-- Skeleton يظهر في أول مرة بس -->
+  @if (isFirstLoading) {
+    <div class="overflow-hidden rounded-xl shadow-lg">
+      <table class="w-full text-sm text-left text-gray-600 bg-white">
+        <thead class="text-xs uppercase bg-green-100 text-green-800">
+          <tr>
+            <th class="px-6 py-3">Image</th>
+            <th class="px-6 py-3">Product</th>
+            <th class="px-6 py-3">Qty</th>
+            <th class="px-6 py-3">Price</th>
+            <th class="px-6 py-3 text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of [0,0,0,0,0,0]; track $index) {
+            <tr class="border-b">
+              <td class="px-6 py-4">
+                <div class="w-20 h-20 bg-gray-300 rounded-lg animate-pulse"></div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="h-4 w-32 bg-gray-300 rounded animate-pulse"></div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="flex items-center space-x-3">
+                  <div class="h-6 w-6 bg-gray-300 rounded-full animate-pulse"></div>
+                  <div class="h-4 w-6 bg-gray-300 rounded animate-pulse"></div>
+                  <div class="h-6 w-6 bg-gray-300 rounded-full animate-pulse"></div>
+                </div>
+              </td>
+              <td class="px-6 py-4">
+                <div class="h-4 w-16 bg-gray-300 rounded animate-pulse"></div>
+              </td>
+              <td class="px-6 py-4 text-center">
+                <div class="h-8 w-20 bg-gray-300 rounded-lg animate-pulse mx-auto"></div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @else {
+    @if (cartData?.numOfCartItems) {
+      <!-- Total Price -->
+      <p class="text-green-600 font-semibold mb-6 text-lg">
+        Total Price: {{ cartData?.data?.totalCartPrice }} EGP
+      </p>
+
+      <!-- Cart Table -->
+      <div class="overflow-hidden rounded-xl shadow-lg">
+        <table class="w-full text-sm text-left text-gray-600 bg-white">
+          <thead class="text-xs uppercase bg-green-100 text-green-800">
+            <tr>
+              <th scope="col" class="px-6 py-3">Image</th>
+              <th scope="col" class="px-6 py-3">Product</th>
+              <th scope="col" class="px-6 py-3">Qty</th>
+              <th scope="col" class="px-6 py-3">Price</th>
+              <th scope="col" class="px-6 py-3 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of cartData?.data?.products; track $index) {
+              <tr class="border-b hover:bg-gray-50 transition">
+                <!-- Image -->
+                <td class="px-6 py-4">
+                  <img
+                    [src]="item.product.imageCover"
+                    [alt]="item.product.title"
+                    class="w-20 h-20 object-cover rounded-lg shadow-sm"
+                  />
+                </td>
+
+                <!-- Title -->
+                <td class="px-6 py-4 font-medium text-gray-900">
+                  {{ item.product.title }}
+                </td>
+
+                <!-- Quantity -->
+                <td class="px-6 py-4">
+                  <div class="flex items-center space-x-3">
+                    <button
+                      (click)="updateCount(item.product._id, item.count - 1)"
+                      class="h-7 w-7 flex items-center justify-center bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition"
+                      type="button"
+                    >
+                      <i class="fa fa-minus text-xs"></i>
+                    </button>
+                    <span class="font-semibold text-gray-800">{{ item.count }}</span>
+                    <button
+                      (click)="updateCount(item.product._id, item.count + 1)"
+                      class="h-7 w-7 flex items-center justify-center bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                      type="button"
+                    >
+                      <i class="fa fa-plus text-xs"></i>
+                    </button>
+                  </div>
+                </td>
+
+                <!-- Price -->
+                <td class="px-6 py-4 font-semibold text-gray-900">
+                  {{ item.price }} EGP
+                </td>
+
+                <!-- Remove Button -->
+                <td class="px-6 py-4 text-center">
+                  <button
+                    (click)="deleteProduct(item.product._id)"
+                    class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-lg shadow-md transition"
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-between items-center mt-6">
+        <button
+          (click)="clearCart()"
+          type="button"
+          class="px-5 py-2 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg shadow-md transition"
+        >
+          Clear Cart
+        </button>
+
+        <button
+          (click)="checkOutSession(cartData?.cartId!)"
+          type="button"
+          class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg shadow-md transition"
+        >
+          CheckOut Session
+        </button>
+      </div>
+    } @else {
+      <div class="text-center py-12">
+        <p class="text-red-500 text-lg font-semibold">No Items in Cart 🛍️</p>
+      </div>
+    }
+}
+  </div>

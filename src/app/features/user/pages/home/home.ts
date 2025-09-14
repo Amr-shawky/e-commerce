@@ -7,10 +7,11 @@ import {faCalendarCheck} from '@ng-icons/font-awesome/regular'
 import { ProductCardComponent } from "../../../../shared/components/product-card/product-card.component";
 import { Product ,Category} from '../../../../core/models/api.interface';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCardComponent, CarouselModule],
+  imports: [ProductCardComponent, CarouselModule, SpinnerComponent],
   // NgIcon, 
   templateUrl: './home.html',
   styleUrl: './home.css',
@@ -53,7 +54,7 @@ export class Home {
   categories: Category[] = [];
 
   isLoading = false;
-
+  isCartUpdated: boolean = false;
   products:Product[]=[];
   constructor(
     private productservices: ProductService,
