@@ -1,1 +1,18 @@
-<p>brands works!</p>
+<div class="">
+  <h1 class="text-2xl font-bold text-center p-7">Brands Page</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 w-11/12 mx-auto pt-3">
+    @for (brand of Brands; track brand._id) {
+      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
+        <a href="#">
+          <img class="p-8 rounded-t-lg" [src]="brand.image" alt="product image" />
+        </a>
+        <div class="px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ brand.name }}</h5>
+          </a>
+        </div>
+      </div>
+    }
+  </div>
+</div>
