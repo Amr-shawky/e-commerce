@@ -60,12 +60,12 @@ export class ResetPassword {
     this.resetPasswordGroup.get('email')?.patchValue(this.forgetPasswordGroup.value.email || '');
     this.authService.forgetPassword({ email: this.forgetPasswordGroup.value.email! }).subscribe({
       next: (res) => {
-        this.toaster.success('Reset code sent to your email!', 'Success', { timeOut: 1500 });
+        this.toaster.success('Reset code sent to your email!', 'Success', { timeOut: 1500 ,progressBar : true });
         this.step = 2;
         this.isLoading = false;
       },
       error: (err) => {
-        this.toaster.error(err.error.message || 'Request failed', 'Error', { timeOut: 1500 });
+        this.toaster.error(err.error.message || 'Request failed', 'Error', { timeOut: 1500 , progressBar : true });
         this.isLoading = false;
       },
     });
@@ -79,12 +79,12 @@ export class ResetPassword {
     this.isLoading = true;
     this.authService.verifyCode({ resetCode: this.verifyResetCodeGroup.value.resetCode! }).subscribe({
       next: (res) => {
-        this.toaster.success('Code verified!', 'Success', { timeOut: 1500 });
+        this.toaster.success('Code verified!', 'Success', { timeOut: 1500 ,progressBar:true});
         this.step = 3;
         this.isLoading = false;
       },
       error: (err) => {
-        this.toaster.error(err.error.message || 'Invalid code', 'Error', { timeOut: 1500 });
+        this.toaster.error(err.error.message || 'Invalid code', 'Error', { timeOut: 1500 ,progressBar:true});
         this.isLoading = false;
       },
     });
@@ -103,13 +103,13 @@ export class ResetPassword {
       })
       .subscribe({
         next: (res) => {
-          this.toaster.success('Password reset successfully!', 'Success', { timeOut: 1500 });
+          this.toaster.success('Password reset successfully!', 'Success', { timeOut: 1500 ,progressBar:true});
           this.authService.decodeToken(res.token);
           this.router.navigate(['/login']);
           this.isLoading = false;
         },
         error: (err) => {
-          this.toaster.error(err.error.message || 'Reset failed', 'Error', { timeOut: 1500 });
+          this.toaster.error(err.error.message || 'Reset failed', 'Error', { timeOut: 1500 ,progressBar:true});
           this.isLoading = false;
         },
       });
