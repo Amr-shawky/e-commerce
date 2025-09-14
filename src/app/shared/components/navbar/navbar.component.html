@@ -38,8 +38,8 @@
           <li>
             <a
               routerLink="{{ item.path }}"
-              routerLinkActive="text-blue-600 font-semibold"
-              class="transition-colors duration-200 hover:text-blue-600"
+              routerLinkActive="text-green-600 font-semibold"
+              class="transition-colors duration-200 hover:text-green-600"
             >
               {{ item.title }}
             </a>
@@ -57,8 +57,8 @@
           <li>
             <a
               routerLink="{{ item.path }}"
-              routerLinkActive="text-blue-600 font-semibold"
-              class="transition-colors duration-200 hover:text-blue-600"
+              routerLinkActive="text-green-600 font-semibold"
+              class="transition-colors duration-200 hover:text-green-600"
             >
               {{ item.title }}
             </a>
@@ -68,7 +68,7 @@
         @if(localIsLogin){
         <li>
           <span
-            class="cursor-pointer transition-colors duration-200 hover:text-blue-600"
+            class="cursor-pointer transition-colors duration-200 hover:text-green-600"
             (click)="logOut()"
             >logOut</span
           >
