@@ -1,13 +1,13 @@
 <div
   [routerLink]="['/product', product.id, product.slug]"
-  class="cursor-pointer hover:scale-105 transition-all duration-500 group relative max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400"
+  class="cursor-pointer hover:scale-105 transition-all duration-500 group relative max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400 w-[250px] mx-auto"
 >
   <!-- Image Wrapper -->
   <div class="relative">
     <img
       [src]="product.imageCover"
       alt="{{ product.title }}"
-      class="w-full object-cover object-center h-96"
+      class="w-64 object-cover object-center h-64"
     />
 
     <!-- Wishlist Heart -->
