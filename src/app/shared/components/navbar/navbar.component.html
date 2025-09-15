@@ -1,7 +1,10 @@
 <nav class="bg-white shadow-md">
   <div class="w-11/12 mx-auto flex items-center justify-between p-4">
     <!-- Logo -->
-    <a routerLink="/home" class="cursor-pointer flex items-center space-x-2 pe-5">
+    <a
+      routerLink="/home"
+      class="cursor-pointer flex items-center space-x-2 pe-5"
+    >
       <img src="images/logo.svg" class="h-8 w-auto" alt="FreshCart Logo" />
     </a>
 
@@ -33,39 +36,52 @@
     <!-- Navbar Links -->
     <div class="me-auto md:flex items-start space-x-8" id="navbar-default">
       <ul class="flex items-start space-x-6 text-gray-600 font-medium">
-        @if(localIsLogin){
-          @for (item of pages; track $index) {
-          <li>
-            <a
-              routerLink="{{ item.path }}"
-              routerLinkActive="text-green-600 font-semibold"
-              class="transition-colors duration-200 hover:text-green-600"
-            >
-              {{ item.title }}
-            </a>
-          </li>
-          }
-        }
+        @if(localIsLogin){ @for (item of pages; track $index) {
+        <li>
+          <a
+            routerLink="{{ item.path }}"
+            routerLinkActive="text-green-600 font-semibold"
+            class="transition-colors duration-200 hover:text-green-600"
+          >
+            {{ item.title }}
+          </a>
+        </li>
+        } }
       </ul>
     </div>
 
     <!-- Auth Links -->
     <div class="hidden md:flex items-center space-x-6">
       <ul class="flex items-center space-x-4 text-gray-600 font-medium">
-        @if(!localIsLogin){
-          @for (item of authpages; track $index) {
-          <li>
-            <a
-              routerLink="{{ item.path }}"
-              routerLinkActive="text-green-600 font-semibold"
-              class="transition-colors duration-200 hover:text-green-600"
-            >
-              {{ item.title }}
-            </a>
-          </li>
-          } 
-        }
-        @if(localIsLogin){
+        @if(!localIsLogin){ @for (item of authpages; track $index) {
+        <li>
+          <a
+            routerLink="{{ item.path }}"
+            routerLinkActive="text-green-600 font-semibold"
+            class="transition-colors duration-200 hover:text-green-600"
+          >
+            {{ item.title }}
+          </a>
+        </li>
+        } } @if(localIsLogin){
+        <!-- Cart Icon -->
+<li class="cursor-pointer">
+  <div class="cart relative">
+    <!-- Cart -->
+    <i class="fa-solid fa-cart-shopping text-2xl text-emerald-900"></i>
+
+    <!-- Badge -->
+    <span
+      class="absolute -top-2 left-3 bg-green-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md"
+    >
+      {{numOfCartItems}}
+    </span>
+  </div>
+</li>
+
+
+        <!--log out -->
+
         <li>
           <span
             class="cursor-pointer transition-colors duration-200 hover:text-green-600"
