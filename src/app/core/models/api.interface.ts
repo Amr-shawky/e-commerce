@@ -81,6 +81,8 @@ export interface CartProduct {
   price: number
 }
 
-
-
-
+export interface ShippingAddress {
+  details: string;
+  phone: string;
+  city: string;
+}

@@ -10,6 +10,7 @@ export const routes: Routes = [
     { path:'cart', canActivate: [authGuard], loadComponent:() =>import('./features/user/pages/cart/cart').then(m => m.Cart)},
     { path:'brands', canActivate: [authGuard], loadComponent:() =>import('./features/user/pages/brands/brands').then(m => m.Brands)},
     { path:'categories', canActivate: [authGuard], loadComponent:() =>import('./features/user/pages/categories/categories').then(m => m.Categories)},
+    {path:'checkout', canActivate: [authGuard], loadComponent:() =>import('./features/user/pages/check-out/check-out.component').then(m => m.CheckOutComponent)},
     { path:'login', loadComponent:() =>import('./features/user/pages/login/login').then(m => m.Login)},
     { path:'register', loadComponent:() =>import('./features/user/pages/register/register').then(m => m.Register)},
     { path:'reset-password', loadComponent:() =>import('./features/user/pages/reset-password/reset-password').then(m => m.ResetPassword)},

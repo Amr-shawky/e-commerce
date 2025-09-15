@@ -1,19 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CartResponse } from '../models/api.interface';
+import { CartResponse, ShippingAddress } from '../models/api.interface';
 import { HttpClient } from '@angular/common/http';
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private cookies = inject(CookieService) ;
+  private cookies = inject(CookieService);
 
   numOfCartItems: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   baseUrl = `https://ecommerce.routemisr.com/api/v1`;
   endPoint = `/cart`;
-
+  CartId: BehaviorSubject<string> = new BehaviorSubject<string>('');
   constructor(private http: HttpClient) {}
 
   //   !!! addToCart (156456785)
@@ -73,21 +73,14 @@ export class CartService {
         token: this.cookies.get('token') || '',
       },
     });
-  
-
-
-
-}
-  checkOutSession(id: string): Observable<any> {
+  }
+  checkOutSession(
+    id: string,
+    shippingAddress: ShippingAddress
+  ): Observable<any> {
     return this.http.post(
       `${this.baseUrl}/orders/checkout-session/${id}?url=http://localhost:4200`,
-      {
-        shippingAddress: {
-          details: 'details',
-          phone: '01010800921',
-          city: 'Cairo',
-        },
-      },
+      shippingAddress,
       {
         headers: {
           token: this.cookies.get('token') || '',

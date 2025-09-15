@@ -1,0 +1,118 @@
+<div class="py-5 h-screen">
+  <form
+    [formGroup]="checkoutform"
+    (ngSubmit)="checkOutSession()"
+    class="relative w-11/12 mx-auto bg-white p-8 rounded-2xl shadow-md space-y-6"
+  >
+    <!-- Details -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="details"
+        type="text"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_details"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Details</label
+      >
+      @if(detailsController?.touched) {
+        @if(detailsController?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Details are required</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Phone -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="phone"
+        type="text"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_phone"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >Phone</label
+      >
+      @if(phoneController?.touched) {
+        @if(phoneController?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Phone is required</div>
+            </div>
+          </div>
+        }
+        @if(phoneController?.getError('pattern')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>Phone format is invalid</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- City -->
+    <div class="relative z-0 w-full mb-5 group">
+      <input
+        formControlName="city"
+        type="text"
+        class="block py-2.5 px-0 w-full text-sm text-cyan-950 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:border-green-500 focus:outline-none focus:ring-0 peer"
+        placeholder=" "
+        required
+      />
+      <label
+        for="floating_city"
+        class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 peer-focus:text-green-600"
+        >City</label
+      >
+      @if(cityController?.touched) {
+        @if(cityController?.getError('required')) {
+          <div class="text-red-600 mb-3">
+            <div
+              class="transition duration-300 flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50"
+              role="alert"
+            >
+              <i class="fas fa-exclamation-circle shrink-0 inline w-4 h-4 me-3"></i>
+              <span class="sr-only">Info</span>
+              <div>City is required</div>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Submit -->
+    <button
+      [disabled]="checkoutform.invalid"
+      type="submit"
+      class="disabled:opacity-50 text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center"
+    >
+      Submit
+    </button>
+  </form>
+</div>

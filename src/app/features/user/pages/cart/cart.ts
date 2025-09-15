@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { CartResponse } from './../../../../core/models/api.interface';
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../../../core/services/cart.service';
@@ -15,10 +16,10 @@ export class Cart implements OnInit {
 
   isFirstLoading = true; // لأول مرة فقط
   isLoading = false;     // باقي العمليات
-
   constructor(
     private cartService: CartService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   getallcarts() {
@@ -31,6 +32,7 @@ export class Cart implements OnInit {
     this.cartService.getCart().subscribe({
       next: (response: CartResponse) => {
         this.cartData = response;
+        this.cartService.CartId.next(response.data._id);
         this.isFirstLoading = false;
         this.cartService.numOfCartItems.next(response.numOfCartItems);
         this.isLoading = false;
@@ -89,21 +91,10 @@ export class Cart implements OnInit {
       },
     });
   }
-
-  checkOutSession(cartId: string) {
+  checkOutSession() {
+    this.cartService.CartId.next(this.cartData?.cartId || "");
     this.isLoading = true;
-    this.cartService.checkOutSession(cartId).subscribe({
-      next: (response: any) => {
-        this.isLoading = false;
-        if (response.session.url) {
-          this.toastr.success('Redirecting to checkout...', 'Success');
-          window.location.href = response.session.url;
-        }
-      },
-      error: () => {
-        this.toastr.error('Checkout session failed', 'Error');
-        this.isLoading = false;
-      },
-    });
+    this.router.navigate(['/checkout']);
+
   }
 }
