@@ -32,6 +32,7 @@ export class Cart implements OnInit {
       next: (response: CartResponse) => {
         this.cartData = response;
         this.isFirstLoading = false;
+        this.cartService.numOfCartItems.next(response.numOfCartItems);
         this.isLoading = false;
       },
       error: (error: any) => {

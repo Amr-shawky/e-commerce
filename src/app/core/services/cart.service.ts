@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { CartResponse } from '../models/api.interface';
 import { HttpClient } from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
@@ -10,6 +10,7 @@ import {CookieService} from 'ngx-cookie-service';
 export class CartService {
   private cookies = inject(CookieService) ;
 
+  numOfCartItems: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   baseUrl = `https://ecommerce.routemisr.com/api/v1`;
   endPoint = `/cart`;
 

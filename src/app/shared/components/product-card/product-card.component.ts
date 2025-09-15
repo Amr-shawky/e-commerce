@@ -30,6 +30,7 @@ export class ProductCardComponent {
         console.log(res);
         this.toastr.success('Product added to cart', 'Success');
         this.isCartUpdated = false;
+        this.cartService.numOfCartItems.next(res.numOfCartItems);
       },
       error: (err) => {
         console.log(err);
