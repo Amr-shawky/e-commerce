@@ -64,17 +64,17 @@
           </a>
         </li>
         } } @if(localIsLogin){
-        <!-- Cart Icon -->
-<li [routerLink]="['/cart']" class="cursor-pointer">
+ <!-- Cart Icon -->
+<li [routerLink]="['/cart']" class="hover:scale-105 transition-all duration-400 cursor-pointer group">
   <div class="cart relative">
     <!-- Cart -->
     <i class="fa-solid fa-cart-shopping text-2xl text-emerald-900"></i>
 
     <!-- Badge -->
     <span
-      class="absolute -top-2 left-3 bg-green-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md"
+      class="absolute -top-2 left-3 bg-green-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md transform transition-transform duration-300 group-hover:scale-125"
     >
-      {{numOfCartItems}}
+      {{ numOfCartItems }}
     </span>
   </div>
 </li>
