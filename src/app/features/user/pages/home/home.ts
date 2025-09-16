@@ -64,7 +64,10 @@ export class Home {
 
     nav: true,
   };
-
+  allfilteredproductscount: number = 0;
+  allfilteredproducts: Product[] = [];
+  allproducts: Product[] = [];
+  results: number = 0;
   categories: Category[] = [];
 
   isLoading = false;
@@ -90,7 +93,16 @@ export class Home {
     private productservices: ProductService,
     @Inject(CategoryService) private categoryService: CategoryService
   ) {}
-
+getallproducts(){
+  this.productservices.getAllProducts({limit: 100,page: 1}).subscribe({
+    next: (response) => {
+      this.allproducts = response.data;
+    },
+    error: (error) => {
+      console.log(error);
+    }
+  });
+};
   getAllCategories() {
     this.categoryService.getAllCategories({}).subscribe({
       next: (response) => {
@@ -107,9 +119,14 @@ export class Home {
   getAllProducts(params: PaginationParameters = this.paginationparams) {
     this.isLoading = true;
     this.productservices.getAllProducts(params).subscribe({
-      next: (response: { data: Product[]; metadata: Metadata }) => {
+      next: (response: {
+        data: Product[];
+        metadata: Metadata;
+        results: number;
+      }) => {
         console.log(response.data);
         this.products = response.data;
+        this.results = response.results;
         this.Filteredproducts.next(
           this.products.filter((product) =>
             product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -138,9 +155,15 @@ export class Home {
     if (this.isLoading) return;
 
     // update immutably (safer)
+    this.metadata.currentPage = page;
     this.paginationparams = { ...this.paginationparams, page };
     console.log('changePage ->', page);
-    this.getAllProducts();
+    if(this.allfilteredproducts.length>0){
+      this.Filteredproducts.next(this.allfilteredproducts.slice(this.metadata.currentPage! * this.metadata.limit!, (this.metadata.currentPage! + 1) * this.metadata.limit!));
+    }
+    else{
+      this.getAllProducts();
+    }
   }
   ngOnInit() {
     this.getAllProducts();
@@ -149,6 +172,7 @@ export class Home {
       this.paginationparams = { ...this.paginationparams }; // Force change detection
     }, 0);
     console.log(this.paginationparams);
+    this.getallproducts();
   }
   onChangeLimit(event: Event) {
     const selectedValue = Number((event.target as HTMLSelectElement).value);
@@ -160,15 +184,50 @@ export class Home {
     console.log('Selected per page ->', selectedValue);
     this.getAllProducts(this.paginationparams);
   }
-  search(query: string) {
+  converttoarray(num: number): number[] {
+    const arr: number[] = [];
+    for (let i = 1; i <= num; i++) {
+      arr.push(i);
+    }
+    return arr;
+  }
+  search(query: string , page: number = 1) {
     query = query.toLowerCase();
     this.searchTerm = query;
     console.log('Search query:', query);
     // Filter products based on the search query
-    this.Filteredproducts.next(
-      this.products.filter((product) =>
+    this.allfilteredproductscount = this.allproducts.filter((product) =>
+      product.title.toLowerCase().includes(query)
+    ).length;
+
+    console.log('Filtered products count:', this.allfilteredproductscount);
+
+    this.allfilteredproducts=this.allproducts.filter((product) =>
         product.title.toLowerCase().includes(query)
       )
+
+    this.Filteredproducts.next(
+      this.allfilteredproducts.slice(this.metadata.currentPage! * this.metadata.limit!, (this.metadata.currentPage! + 1) * this.metadata.limit!)
     );
+    const productscount: number = this.allfilteredproductscount;
+    const limit = this.metadata.limit;
+    const nofpages = Math.ceil(productscount/ limit);
+    if (query.trim() === '') {
+      console.log('Empty search query, resetting to all products.');
+      console.log('Total products count:', this.results);
+      this.metadata.numberOfPages = Math.ceil(this.results / limit);
+      console.log('limit:', limit);
+      console.log('Number of pages:', this.metadata.numberOfPages);
+      this.pages = this.converttoarray(this.metadata.numberOfPages);
+      console.log('Pages array:', this.pages);
+    } else {
+      console.log('Filtered products count:', productscount);
+      console.log('limit:', limit);
+      console.log('Number of pages:', nofpages);
+      this.metadata.numberOfPages = nofpages;
+      this.pages = this.converttoarray(this.metadata.numberOfPages);
+
+      console.log('Pages array:', this.pages);
+    }
   }
 }
