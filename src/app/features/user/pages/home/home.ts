@@ -181,8 +181,22 @@ getallproducts(){
       limit: selectedValue,
       page: 1,
     };
+    this.metadata.limit = selectedValue;
+    this.metadata.currentPage = 1;
+    if(this.allfilteredproductscount>0){
+      this.metadata.numberOfPages = Math.ceil(this.allfilteredproductscount / selectedValue);
+    }
+    else{
+      this.metadata.numberOfPages = Math.ceil(this.results / selectedValue);
+    }
+    this.pages = this.converttoarray(this.metadata.numberOfPages);
     console.log('Selected per page ->', selectedValue);
-    this.getAllProducts(this.paginationparams);
+    if(this.allfilteredproductscount>0){
+      this.Filteredproducts.next(this.allfilteredproducts.slice(this.metadata.currentPage! * this.metadata.limit!, (this.metadata.currentPage! + 1) * this.metadata.limit!));
+    }
+    else{
+      this.getAllProducts(this.paginationparams);
+    }
   }
   converttoarray(num: number): number[] {
     const arr: number[] = [];
