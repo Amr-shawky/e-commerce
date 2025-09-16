@@ -4,7 +4,10 @@ export interface Response<T> {
   data: T[]
 }
 
-
+export interface PaginationParameters {
+  limit?: number;
+  page?: number;
+}
 export interface Metadata {
   currentPage: number
   numberOfPages: number

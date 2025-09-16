@@ -17,33 +17,128 @@
   }
 </owl-carousel-o>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-4 w-11/12 mx-auto pt-3">
 
 
-    @if(isLoading) {
+<div class="div">
 
-    @for (item of [0 , 0 , 0 , 0 , 0 , 0 ,0 , 0 , 0 , 0 ,0]; track $index) {
-
-    <div class="">
-        <div class="h-60 animate-pulse rounded  bg-gray-400"></div>
-
-        <div class="h-4 bg-gray-400 mt-2 w-20"></div>
-
-        <div class="h-4 bg-gray-400 mt-2 w-40"></div>
-
+</div>
+<form class="mx-auto pt-4 flex flex-col md:flex-row items-center justify-between gap-4 w-11/12">
+  <!-- Search -->
+  <div class="relative w-full md:w-1/2">
+    <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
+      <svg
+        class="w-4 h-4 text-gray-500"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 20 20">
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+      </svg>
     </div>
-    }
-    }@else {
-    @for (product of products; track $index) {
-    <app-product-card [product]="product"></app-product-card>
-    }
-    }
+    <input
+      type="search"
+      id="default-search"
+      class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-500 focus:border-emerald-500"
+      placeholder="Search products..."
+      required />
+  </div>
+
+  <!-- Products per page -->
+  <div class="flex items-center gap-2">
+    <label for="per-page" class="text-sm font-medium text-gray-700 whitespace-nowrap">
+      Products per page:
+    </label>
+<select
+  id="per-page"
+  [(ngModel)]="paginationparams.limit"
+  (change)="onChangeLimit($event)"
+  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+         focus:ring-emerald-500 focus:border-emerald-500 block w-28 p-2">
+
+  @for (item of [4,8,12,16,20,24,28,32,36,40,44,48,52,56,60]; track $index) {
+    <option [value]="item">
+      {{ item }}
+    </option>
+  }
+</select>
+
+  </div>
+</form>
 
 
+<div class="items flex flex-col">\
 
-
-
-
-
-
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3 mx-auto pt-3">
+      @if(isLoading) {
+  
+      @for (item of [0 , 0 , 0 , 0 , 0 , 0 ,0 , 0 , 0 , 0,0 ,0]; track $index) {
+  
+      <div class="">
+          <div class="h-60 animate-pulse rounded  bg-gray-400"></div>
+  
+          <div class="h-4 bg-gray-400 mt-2 w-30"></div>
+  
+          <div class="h-4 bg-gray-400 mt-2 w-70"></div>
+  
+      </div>
+      }
+      }@else {
+      @for (product of products; track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+      <!-- Pagination Controls -->
+      
+    } 
+  </div>
+  <div class="Pagination mx-auto">
+    <nav aria-label="Page navigation example" class="block py-10">
+      <ul class="inline-flex -space-x-px text-base h-10">
+        <!-- Previous -->
+        <li>
+          <button
+            (click)="changePage(paginationparams.page! - 1)"
+            [disabled]="paginationparams.page === 1"
+            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight 
+                   text-gray-500 bg-white border border-e-0 border-gray-300 
+                   rounded-s-lg hover:bg-gray-100 hover:text-gray-700 
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+            Previous
+          </button>
+        </li>
+    
+        <!-- Page Numbers -->
+        @for (page of pages; track $index) {
+          <li>
+            <button
+              (click)="changePage($index + 1)"
+              [class.bg-emerald-600]="paginationparams.page === $index + 1"
+              [class.text-gray-300]="paginationparams.page === $index + 1"
+              class="flex items-center justify-center px-4 h-10 leading-tight 
+                     text-black bg-white border border-gray-300 
+                     hover:bg-gray-100 hover:text-gray-700">
+              {{ $index + 1 }}
+            </button>
+          </li>
+        }
+    
+        <!-- Next -->
+        <li>
+          <button
+            (click)="changePage(paginationparams.page! + 1)"
+            [disabled]="paginationparams.page === metadata.numberOfPages"
+            class="flex items-center justify-center px-4 h-10 leading-tight 
+                   text-gray-500 bg-white border border-gray-300 
+                   rounded-e-lg hover:bg-gray-100 hover:text-gray-700 
+                   disabled:opacity-50 disabled:cursor-not-allowed">
+            Next
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>

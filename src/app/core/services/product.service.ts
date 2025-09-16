@@ -1,12 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Product, Response } from '../models/api.interface';
+import { Product, Response ,PaginationParameters} from '../models/api.interface';
 
-interface PaginationParameters {
-  limit?: number;
-  page?: number;
-}
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +15,9 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   // !!!
-  getAllProducts({
-    limit = 40,
-    page = 1,
-  }: PaginationParameters): Observable<Response<Product>> {
+  getAllProducts(paginationParams: PaginationParameters): Observable<Response<Product>> {
     return this.http.get<Response<Product>>(
-      `${this.baseUrl}${this.endPoint}?limit=${limit}&page=${page}`
+      `${this.baseUrl}${this.endPoint}?limit=${paginationParams.limit}&page=${paginationParams.page}`
     );
   }
 
