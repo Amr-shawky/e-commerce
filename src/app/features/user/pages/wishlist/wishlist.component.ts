@@ -1,31 +1,58 @@
-import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { wishlistService } from '../../../../core/services/wishlist.service';
+import { Product, wishlistResponse } from '../../../../core/models/api.interface';
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 
 @Component({
   selector: 'app-wishlist',
-  imports: [],
+  imports: [CommonModule, RouterLink, SpinnerComponent],
   templateUrl: './wishlist.component.html',
-  styleUrl: './wishlist.component.css'
+  styleUrl: './wishlist.component.css',
 })
-export class WishlistComponent implements OnInit{
-  constructor(private wishlistService: wishlistService,
+export class WishlistComponent implements OnInit {
+  wishlistproducts: Product[] = [];
+  isLoading: boolean = false;
+
+  constructor(
+    private wishlistService: wishlistService,
     private toastr: ToastrService
   ) {}
+
   ngOnInit(): void {
     this.getwishlist();
   }
-  getwishlist(){
+
+  getwishlist() {
+    this.isLoading = true;
     this.wishlistService.getwishlist().subscribe({
-      next: (response) => {
-        this.toastr.success('wishlist loaded successfully', 'Success');
-        console.log(response);
+      next: (response: wishlistResponse) => {
+        this.wishlistproducts = response.data || [];
+        this.toastr.success('Wishlist loaded successfully', 'Success');
+        console.log('Wishlist fetched:', this.wishlistproducts);
+        this.isLoading = false;
       },
       error: (error) => {
-        this.toastr.error('Failed to load wishlist ' + error, 'Error');
+        this.toastr.error('Failed to load wishlist: ' + error.message, 'Error');
         console.log(error);
-      }
+        this.isLoading = false;
+      },
     });
   }
 
+  removeFromWishlist(productId: string) {
+    this.isLoading = true;
+    this.wishlistService.removeFromWishlist(productId).subscribe({
+      next: (res: any) => {
+        this.toastr.success('Product removed from wishlist', 'Success');
+        this.getwishlist(); // Refresh wishlist
+      },
+      error: (err: any) => {
+        this.toastr.error('Failed to remove product from wishlist', 'Error');
+        this.isLoading = false;
+      },
+    });
+  }
 }
