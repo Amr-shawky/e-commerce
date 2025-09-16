@@ -18,13 +18,19 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
-  imports: [ProductCardComponent, CarouselModule, SpinnerComponent,FormsModule],
+  imports: [
+    ProductCardComponent,
+    CarouselModule,
+    SpinnerComponent,
+    FormsModule,
+  ],
   // NgIcon,
   templateUrl: './home.html',
   styleUrl: './home.css',
   viewProviders: [provideIcons({ faCalendarCheck })],
 })
 export class Home {
+  //#region variables
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -58,11 +64,14 @@ export class Home {
 
     nav: true,
   };
+
   categories: Category[] = [];
 
   isLoading = false;
   isCartUpdated: boolean = false;
-  Filteredproducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  Filteredproducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
+    []
+  );
   products: Product[] = [];
   searchTerm: string = '';
   paginationparams: PaginationParameters = { limit: 28, page: 1 };
@@ -74,6 +83,9 @@ export class Home {
     nextPage: 2,
   };
   pages: number[] = [];
+
+  //#endregion
+
   constructor(
     private productservices: ProductService,
     @Inject(CategoryService) private categoryService: CategoryService
@@ -98,14 +110,17 @@ export class Home {
       next: (response: { data: Product[]; metadata: Metadata }) => {
         console.log(response.data);
         this.products = response.data;
-        this.Filteredproducts.next(this.products.filter(product => product.title.toLowerCase().includes(this.searchTerm.toLowerCase())));
+        this.Filteredproducts.next(
+          this.products.filter((product) =>
+            product.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+          )
+        );
         this.metadata = response.metadata;
         const total = Math.max(1, this.metadata.numberOfPages || 1);
-        if(params.limit!>=56||this.paginationparams.limit!>=56){
-          this.metadata.numberOfPages=1
-          this.pages=[1]
-        }
-        else{
+        if (params.limit! >= 56 || this.paginationparams.limit! >= 56) {
+          this.metadata.numberOfPages = 1;
+          this.pages = [1];
+        } else {
           this.pages = Array.from({ length: total }, (_, i) => i + 1);
         }
         this.isLoading = false;
@@ -127,25 +142,33 @@ export class Home {
     console.log('changePage ->', page);
     this.getAllProducts();
   }
-ngOnInit() {
-  this.getAllProducts();
-  this.getAllCategories();
-  setTimeout(() => {
-    this.paginationparams = { ...this.paginationparams }; // Force change detection
-  }, 0);
-  console.log(this.paginationparams);
-}
-onChangeLimit(event: Event) {
-  const selectedValue = Number((event.target as HTMLSelectElement).value);
-  this.paginationparams = { ...this.paginationparams, limit: selectedValue, page: 1 };
-  console.log('Selected per page ->', selectedValue);
-  this.getAllProducts(this.paginationparams);
-}
-search(query: string) {
-  query = query.toLowerCase();
-  this.searchTerm = query;
-  console.log('Search query:', query);
-  // Filter products based on the search query
-  this.Filteredproducts.next(this.products.filter(product => product.title.toLowerCase().includes(query)));
-}
+  ngOnInit() {
+    this.getAllProducts();
+    this.getAllCategories();
+    setTimeout(() => {
+      this.paginationparams = { ...this.paginationparams }; // Force change detection
+    }, 0);
+    console.log(this.paginationparams);
+  }
+  onChangeLimit(event: Event) {
+    const selectedValue = Number((event.target as HTMLSelectElement).value);
+    this.paginationparams = {
+      ...this.paginationparams,
+      limit: selectedValue,
+      page: 1,
+    };
+    console.log('Selected per page ->', selectedValue);
+    this.getAllProducts(this.paginationparams);
+  }
+  search(query: string) {
+    query = query.toLowerCase();
+    this.searchTerm = query;
+    console.log('Search query:', query);
+    // Filter products based on the search query
+    this.Filteredproducts.next(
+      this.products.filter((product) =>
+        product.title.toLowerCase().includes(query)
+      )
+    );
+  }
 }
