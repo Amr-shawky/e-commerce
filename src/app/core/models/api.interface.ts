@@ -3,6 +3,11 @@ export interface Response<T> {
   metadata: Metadata
   data: T[]
 }
+export interface wishlistResponse {
+  count: number
+  data: any[]
+  status: string
+}
 
 export interface PaginationParameters {
   limit?: number;

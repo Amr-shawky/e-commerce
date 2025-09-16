@@ -13,12 +13,24 @@
     />
 
     <!-- Wishlist Heart -->
-    <button
-      (click)="addToWishlist(product)"
+     <!-- Wishlist Heart -->
+    <!-- <button
       class="cursor-pointer absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition duration-300 group-hover:bg-green-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
     >
+      <ng-icon
+        [name]="isInWishlist(product) ? 'faSolidHeart' : 'faHeart'"
+        class="transition group-hover:text-white"
+        [ngClass]="{ 'text-red-500': isInWishlist(product) }"
+      ></ng-icon>
+    </button> -->
+
+    <button
+      (click)="toggleWishlist(product); $event.stopPropagation()"
+      class="cursor-pointer absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition duration-300 group-hover:bg-green-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+      >
       <i
-        class="cursor-pointer fa-solid fa-heart transition group-hover:text-white"
+      class="cursor-pointer fa-solid fa-heart transition group-hover:text-white"
+      [ngClass]="{ 'text-red-500': isInWishlist(product) }"
       ></i>
     </button>
   </div>

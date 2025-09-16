@@ -69,7 +69,8 @@ export class NavbarComponent implements OnInit{
     {title: 'Products', path: '/products'},
     {title: 'Cart', path: '/cart'},
     {title: 'Categories', path: '/categories'},
-    {title: 'Brands', path: '/brands'}
+    {title: 'Brands', path: '/brands'},
+    {title: 'wishlist', path: '/wish-list'}
   ];
   authpages:{title:string, path:string}[] = [
     {title: 'Login', path: '/login'},
