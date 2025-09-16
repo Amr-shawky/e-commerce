@@ -62,7 +62,9 @@ export class Home {
   isLoading = false;
   isCartUpdated: boolean = false;
   products: Product[] = [];
+
   paginationparams: PaginationParameters = { limit: 28, page: 1 };
+
   metadata: Metadata = {
     limit: this.paginationparams.limit || 28,
     currentPage: this.paginationparams.page || 1,
@@ -122,19 +124,18 @@ export class Home {
     console.log('changePage ->', page);
     this.getAllProducts();
   }
-  ngOnInit() {
-    this.getAllProducts();
-    this.getAllCategories();
-  }
-  onChangeLimit(event: Event) {
+ngOnInit() {
+  this.getAllProducts();
+  this.getAllCategories();
+  setTimeout(() => {
+    this.paginationparams = { ...this.paginationparams }; // Force change detection
+  }, 0);
+  console.log(this.paginationparams);
+}
+onChangeLimit(event: Event) {
   const selectedValue = Number((event.target as HTMLSelectElement).value);
-
-  // نرّجع للصفحة الأولى عشان البيانات متتلغبطش
   this.paginationparams = { ...this.paginationparams, limit: selectedValue, page: 1 };
-
   console.log('Selected per page ->', selectedValue);
-
-  // استدعاء API تاني بالـ limit الجديد
   this.getAllProducts(this.paginationparams);
 }
 

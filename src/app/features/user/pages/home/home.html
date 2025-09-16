@@ -49,28 +49,25 @@
   </div>
 
   <!-- Products per page -->
-  <div class="flex items-center gap-2">
-    <label for="per-page" class="text-sm font-medium text-gray-700 whitespace-nowrap">
-      Products per page:
-    </label>
-<select
-  id="per-page"
-  [(ngModel)]="paginationparams.limit"
-  (change)="onChangeLimit($event)"
-  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-         focus:ring-emerald-500 focus:border-emerald-500 block w-28 p-2">
-
-  @for (item of [4,8,12,16,20,24,28,32,36,40,44,48,52,56,60]; track $index) {
-    <option [value]="item">
-      {{ item }}
-    </option>
-  }
-</select>
-
-  </div>
+<div class="flex items-center gap-2">
+  <label for="per-page" class="text-sm font-medium text-gray-700 whitespace-nowrap">
+    Products per page:
+  </label>
+  <select
+    id="per-page"
+    [(ngModel)]="paginationparams.limit"
+    [ngModelOptions]="{standalone: true}"
+    (change)="onChangeLimit($event)"
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+           focus:ring-emerald-500 focus:border-emerald-500 block w-28 p-2">
+    @for (item of [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]; track $index) {
+      <option [value]="item">
+        {{ item }}
+      </option>
+    }
+  </select>
+</div>
 </form>
-
-
 <div class="items flex flex-col">\
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3 mx-auto pt-3">
