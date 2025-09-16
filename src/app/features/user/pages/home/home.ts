@@ -14,6 +14,7 @@ import {
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -61,8 +62,9 @@ export class Home {
 
   isLoading = false;
   isCartUpdated: boolean = false;
+  Filteredproducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
   products: Product[] = [];
-
+  searchTerm: string = '';
   paginationparams: PaginationParameters = { limit: 28, page: 1 };
 
   metadata: Metadata = {
@@ -96,6 +98,7 @@ export class Home {
       next: (response: { data: Product[]; metadata: Metadata }) => {
         console.log(response.data);
         this.products = response.data;
+        this.Filteredproducts.next(this.products.filter(product => product.title.toLowerCase().includes(this.searchTerm.toLowerCase())));
         this.metadata = response.metadata;
         const total = Math.max(1, this.metadata.numberOfPages || 1);
         if(params.limit!>=56||this.paginationparams.limit!>=56){
@@ -138,6 +141,11 @@ onChangeLimit(event: Event) {
   console.log('Selected per page ->', selectedValue);
   this.getAllProducts(this.paginationparams);
 }
-
+search(query: string) {
+  query = query.toLowerCase();
+  this.searchTerm = query;
+  console.log('Search query:', query);
+  // Filter products based on the search query
+  this.Filteredproducts.next(this.products.filter(product => product.title.toLowerCase().includes(query)));
 }
-//
+}

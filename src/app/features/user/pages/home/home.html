@@ -43,6 +43,7 @@
     <input
       type="search"
       id="default-search"
+      (input)="search($event.target.value.toLowerCase())"
       class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-500 focus:border-emerald-500"
       placeholder="Search products..."
       required />
@@ -53,6 +54,7 @@
   <label for="per-page" class="text-sm font-medium text-gray-700 whitespace-nowrap">
     Products per page:
   </label>
+  
   <select
     id="per-page"
     [(ngModel)]="paginationparams.limit"
@@ -67,8 +69,9 @@
     }
   </select>
 </div>
+
 </form>
-<div class="items flex flex-col">\
+<div class="items flex flex-col">
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3 mx-auto pt-3">
       @if(isLoading) {
@@ -85,7 +88,7 @@
       </div>
       }
       }@else {
-      @for (product of products; track $index) {
+      @for (product of Filteredproducts.value; track $index) {
       <app-product-card [product]="product"></app-product-card>
       }
       <!-- Pagination Controls -->
