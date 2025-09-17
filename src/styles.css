@@ -3,3 +3,37 @@
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
+/* Ensure dark mode styles are applied globally or in your main CSS */
+body.dark {
+  @apply bg-gray-900 text-white;
+}
+
+body.dark .bg-white {
+  @apply bg-gray-800;
+}
+
+body.dark .text-gray-700,
+body.dark .text-gray-600 {
+  @apply text-gray-300;
+}
+
+body.dark .border-gray-300 {
+  @apply border-gray-600;
+}
+
+body.dark .hover:bg-gray-100 {
+  @apply hover:bg-gray-700;
+}
+
+body.dark .focus:ring-gray-200 {
+  @apply focus:ring-gray-600;
+}
+
+/* Navbar specific styles */
+.navbar-icon {
+  transition: transform 0.3s ease;
+}
+
+.navbar-icon:hover {
+  transform: scale(1.1);
+}

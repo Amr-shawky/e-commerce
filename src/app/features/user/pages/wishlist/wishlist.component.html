@@ -17,7 +17,7 @@
       </a>
     </div>
   } @else {
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
       @for (product of wishlistproducts; track product._id) {
         <div
           class="cursor-pointer hover:scale-105 transition-all duration-500 group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400 w-[250px] mx-auto"
@@ -33,7 +33,7 @@
             <!-- Remove from Wishlist Button -->
             <button
               (click)="removeFromWishlist(product._id); $event.stopPropagation()"
-              class="absolute top-3 right-3 bg-white text-red-600 rounded-full p-2 shadow-md transition duration-300 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              class="cursor-pointer absolute top-3 right-3 bg-white text-red-600 rounded-full p-2 shadow-md transition duration-300 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
             >
               <i class="fa-solid fa-trash"></i>
             </button>

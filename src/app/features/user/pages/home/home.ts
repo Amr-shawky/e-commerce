@@ -9,15 +9,17 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { HeroComponent } from "../../../../shared/components/hero/hero.component";
 
 @Component({
-  selector: 'app-home',
   imports: [
     ProductCardComponent,
     CarouselModule,
     SpinnerComponent,
     FormsModule,
-  ],
+    HeroComponent,
+    FormsModule,
+],
   templateUrl: './home.html',
   styleUrl: './home.css',
   viewProviders: [provideIcons({ faCalendarCheck })],

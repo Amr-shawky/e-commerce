@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit{
   }
     localIsLogin = false;
     numOfCartItems : number = 0;
+  isDarkMode = false; // Track dark mode state
   logOut() {
     this.authService.logOut();
   }
@@ -76,4 +77,12 @@ export class NavbarComponent implements OnInit{
     {title: 'Login', path: '/login'},
     {title: 'Register', path: '/register'},
   ];
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
 }
