@@ -1,29 +1,82 @@
-<div class="hero-section relative w-full h-[600px] bg-cover bg-center" 
-     style="background-image: url('/images/bg9.jpeg');">
-  <div class="absolute inset-0 bg-gradient-to-t from-green-900/80 to-transparent"></div>
-  <div class="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4 sm:px-6 lg:px-8">
-    <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-down">
+<div
+  class="hero-section relative w-full h-[600px] bg-cover bg-center"
+  style="background-image: url('/images/bg9.jpeg');"
+  [ngClass]="{
+    'text-gray-100': isDarkMode,
+    'text-white': !isDarkMode
+  }"
+>
+  <div
+    class="absolute inset-0"
+    [ngClass]="{
+      'bg-gradient-to-t from-gray-900/80 to-transparent': isDarkMode,
+      'bg-gradient-to-t from-green-600/80 to-transparent': !isDarkMode
+    }"
+  ></div>
+  <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 sm:px-6 lg:px-8">
+    <h1
+      class="text-5xl md:text-6xl font-extrabold tracking-tight animate-fade-in-down"
+      [ngClass]="{ 'text-green-900': isDarkMode, 'text-white': !isDarkMode }"
+    >
       {{ title }}
     </h1>
-    <p class="mt-4 text-lg md:text-xl font-light max-w-2xl animate-fade-in-up">
+    <p
+      class="mt-4 text-lg md:text-xl font-bold max-w-2xl animate-fade-in-up"
+      [ngClass]="{ 'text-green-900': isDarkMode, 'text-gray-100': !isDarkMode }"
+    >
       {{ subtitle }}
     </p>
     <div class="mt-6 flex gap-4">
-      <button [routerLink]="['/products']" class="cursor-pointer px-8 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition duration-300 transform hover:scale-105 animate-pulse-once">
+      <button
+        [routerLink]="['/products']"
+        class="cursor-pointer px-8 py-3 font-semibold rounded-lg shadow-lg transition duration-300 transform hover:scale-105 animate-pulse-once"
+        [ngClass]="{
+          'bg-green-600 text-white hover:bg-green-700': isDarkMode,
+          'bg-green-500 text-white hover:bg-green-600': !isDarkMode
+        }"
+      >
         Shop Now
       </button>
-      <button [routerLink]="['/about']" class="cursor-pointer px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-green-900 transition duration-300 transform hover:scale-105">
+      <button
+        [routerLink]="['/about']"
+        class="cursor-pointer px-8 py-3 border-2 font-semibold rounded-lg transition duration-300 transform hover:scale-105"
+        [ngClass]="{
+          'bg-transparent border-gray-300 text-gray-300 hover:bg-gray-700 hover:text-green-400': isDarkMode,
+          'bg-transparent border-white text-white hover:bg-white hover:text-green-900': !isDarkMode
+        }"
+      >
         Learn More
       </button>
     </div>
     <div class="mt-8 flex space-x-4 animate-fade-in">
-      <a href="#" class="text-white hover:text-green-300 transition duration-300">
+      <a
+        href="#"
+        class="transition duration-300"
+        [ngClass]="{
+          'text-gray-300 hover:text-green-400': isDarkMode,
+          'text-white hover:text-green-200': !isDarkMode
+        }"
+      >
         <i class="fab fa-facebook-f"></i>
       </a>
-      <a href="#" class="text-white hover:text-green-300 transition duration-300">
+      <a
+        href="#"
+        class="transition duration-300"
+        [ngClass]="{
+          'text-gray-300 hover:text-green-400': isDarkMode,
+          'text-white hover:text-green-200': !isDarkMode
+        }"
+      >
         <i class="fab fa-twitter"></i>
       </a>
-      <a href="#" class="text-white hover:text-green-300 transition duration-300">
+      <a
+        href="#"
+        class="transition duration-300"
+        [ngClass]="{
+          'text-gray-300 hover:text-green-400': isDarkMode,
+          'text-white hover:text-green-200': !isDarkMode
+        }"
+      >
         <i class="fab fa-instagram"></i>
       </a>
     </div>
