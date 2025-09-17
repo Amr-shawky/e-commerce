@@ -4,6 +4,8 @@
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 /* Ensure dark mode styles are applied globally or in your main CSS */
+
+@custom-variant dark (&:where(.dark, .dark *));
 body.dark {
   @apply bg-gray-900 text-white;
 }

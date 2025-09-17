@@ -9,7 +9,7 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
-import { HeroComponent } from "../../../../shared/components/hero/hero.component";
+import { HeroComponent } from "../../components/hero/hero.component";
 
 @Component({
   imports: [
