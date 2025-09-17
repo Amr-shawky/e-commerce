@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { AuthService } from './../../../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -5,10 +6,12 @@ import { initFlowbite } from 'flowbite';
 import { FlowbiteService } from '../../../core/services/flowbite';
 import { CartService } from '../../../core/services/cart.service';
 import { CartResponse } from '../../../core/models/api.interface';
+import { ModeService } from '../../../core/services/mode.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -16,7 +19,8 @@ import { CartResponse } from '../../../core/models/api.interface';
 export class NavbarComponent implements OnInit{
   constructor(private authService: AuthService, 
     private flowbiteService: FlowbiteService,
-    private cartservice : CartService
+    private cartservice : CartService,
+    private modeService: ModeService
   ) {
      authService.isLogin.subscribe({
       next: (isLogin) => {
@@ -28,7 +32,7 @@ export class NavbarComponent implements OnInit{
   }
     localIsLogin = false;
     numOfCartItems : number = 0;
-  isDarkMode = false; // Track dark mode state
+  isDarkMode :BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false); // Track dark mode state
   logOut() {
     this.authService.logOut();
   }
@@ -60,6 +64,7 @@ export class NavbarComponent implements OnInit{
     }
   
   ngOnInit(): void {
+    this.isDarkMode = new BehaviorSubject<boolean>(this.modeService.mode.value === 'dark');
     this.flowbiteService.loadFlowbite((flowbite) => {
       initFlowbite();
     });
@@ -78,11 +83,13 @@ export class NavbarComponent implements OnInit{
     {title: 'Register', path: '/register'},
   ];
   toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
+    this.isDarkMode.next(!this.isDarkMode.value);
+    this.modeService.toggleMode();
+    if (this.isDarkMode.value) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
     }
   }
+
 }

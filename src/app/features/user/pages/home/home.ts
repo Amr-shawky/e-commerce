@@ -1,15 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { CategoryService } from './../../../../core/services/category.service';
 import { ProductService } from './../../../../core/services/product.service';
 import { Component, Inject } from '@angular/core';
 import { provideIcons } from '@ng-icons/core';
 import { faCalendarCheck } from '@ng-icons/font-awesome/regular';
 import { ProductCardComponent } from '../../../../shared/components/product-card/product-card.component';
-import { Product, Category, Metadata, PaginationParameters } from '../../../../core/models/api.interface';
+import {
+  Product,
+  Category,
+  Metadata,
+  PaginationParameters,
+} from '../../../../core/models/api.interface';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { HeroComponent } from "../../components/hero/hero.component";
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { HeroComponent } from '../../components/hero/hero.component';
+import { ModeService } from '../../../../core/services/mode.service';
 
 @Component({
   imports: [
@@ -19,7 +26,8 @@ import { HeroComponent } from "../../components/hero/hero.component";
     FormsModule,
     HeroComponent,
     FormsModule,
-],
+    CommonModule
+  ],
   templateUrl: './home.html',
   styleUrl: './home.css',
   viewProviders: [provideIcons({ faCalendarCheck })],
@@ -46,6 +54,7 @@ export class Home {
     autoplaySpeed: 500,
     nav: true,
   };
+  private modeSubscription!: Subscription;
   allfilteredproductscount: number = 0;
   allfilteredproducts: Product[] = [];
   allproducts: Product[] = [];
@@ -53,7 +62,9 @@ export class Home {
   categories: Category[] = [];
   isLoading = false;
   isCartUpdated: boolean = false;
-  Filteredproducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([]);
+  Filteredproducts: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>(
+    []
+  );
   products: Product[] = [];
   searchTerm: string = '';
   paginationparams: PaginationParameters = { limit: 28, page: 1 };
@@ -69,9 +80,12 @@ export class Home {
 
   constructor(
     private productservices: ProductService,
-    @Inject(CategoryService) private categoryService: CategoryService
+    @Inject(CategoryService) private categoryService: CategoryService,
+    private modeService: ModeService
   ) {}
-
+  get isDarkMode(): boolean {
+    return this.modeService.mode.value === 'dark';
+  }
   getallproducts() {
     this.isLoading = true;
     this.productservices.getAllProducts({ limit: 100, page: 1 }).subscribe({
@@ -124,6 +138,10 @@ export class Home {
   }
 
   ngOnInit() {
+    // Subscribe to mode changes
+    this.modeSubscription = this.modeService.mode.subscribe((mode) => {
+      console.log('Mode changed to:', mode); // Debugging
+    });
     this.getallproducts();
     this.getAllCategories();
     setTimeout(() => {

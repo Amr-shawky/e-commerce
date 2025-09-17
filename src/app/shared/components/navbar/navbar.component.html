@@ -1,8 +1,11 @@
-<nav class="bg-green-900 shadow-lg text-white">
+<nav class="shadow-lg"
+  [ngClass]="{ 'bg-gray-900 text-green-100': isDarkMode.value, 'bg-green-50 text-green-900': !isDarkMode.value }"
+>
   <div class="w-11/12 mx-auto flex items-center justify-between p-4 md:p-6">
     <!-- Logo -->
     <a routerLink="/home" class="flex items-center space-x-1 rtl:space-x-reverse">
-      <i class=".navbar-icon fa-solid fa-cart-shopping text-green-300"></i>
+      <i class="fa-solid fa-cart-shopping"
+         [ngClass]="{ 'text-green-400': isDarkMode.value, 'text-green-600': !isDarkMode.value }"></i>
       <span class="self-center text-xl font-bold whitespace-nowrap">FreshCart</span>
     </a>
 
@@ -10,12 +13,16 @@
     <button
       data-collapse-toggle="navbar-default"
       type="button"
-      class="inline-flex items-center p-2 w-10 h-10 justify-center text-white rounded-lg md:hidden hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500"
+      class="inline-flex items-center p-2 w-10 h-10 justify-center rounded-lg md:hidden focus:outline-none focus:ring-2"
+      [ngClass]="{ 
+        'text-green-300 hover:bg-gray-800 focus:ring-green-500': isDarkMode.value, 
+        'text-green-700 hover:bg-green-200 focus:ring-green-500': !isDarkMode.value 
+      }"
       aria-controls="navbar-default"
       aria-expanded="false"
     >
       <span class="sr-only">Open main menu</span>
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </button>
@@ -28,8 +35,12 @@
             <li>
               <a
                 routerLink="{{ item.path }}"
-                routerLinkActive="text-green-300 font-semibold"
-                class="transition-colors duration-200 hover:text-green-200"
+                routerLinkActive="font-semibold !text-green-400"
+                [ngClass]="{ 
+                  'text-green-200 hover:text-green-300': isDarkMode.value, 
+                  'text-green-800 hover:text-green-600': !isDarkMode.value 
+                }"
+                class="transition-colors duration-200"
               >
                 {{ item.title }}
               </a>
@@ -47,8 +58,12 @@
             <li>
               <a
                 routerLink="{{ item.path }}"
-                routerLinkActive="text-green-300 font-semibold"
-                class="transition-colors duration-200 hover:text-green-200"
+                routerLinkActive="font-semibold !text-green-400"
+                [ngClass]="{ 
+                  'text-green-200 hover:text-green-300': isDarkMode.value, 
+                  'text-green-800 hover:text-green-600': !isDarkMode.value 
+                }"
+                class="transition-colors duration-200"
               >
                 {{ item.title }}
               </a>
@@ -59,9 +74,11 @@
           <!-- Cart Icon -->
           <li routerLink="/cart" class="hover:scale-105 transition-all duration-300 cursor-pointer group">
             <div class="cart relative">
-              <i class="fa-solid fa-cart-shopping text-xl text-green-200"></i>
+              <i class="fa-solid fa-cart-shopping text-xl"
+                 [ngClass]="{ 'text-green-400': isDarkMode.value, 'text-green-600': !isDarkMode.value }"></i>
               <span
-                class="absolute -top-2 left-3 bg-green-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md transform transition-transform duration-300 group-hover:scale-125"
+                class="absolute -top-2 left-3 text-xs font-bold px-1.5 py-0.5 rounded-full shadow-md transform transition-transform duration-300 group-hover:scale-125"
+                [ngClass]="{ 'bg-green-600 text-gray-900': isDarkMode.value, 'bg-green-500 text-white': !isDarkMode.value }"
               >
                 {{ numOfCartItems }}
               </span>
@@ -71,7 +88,8 @@
           <!-- Logout -->
           <li>
             <span
-              class="cursor-pointer transition-colors duration-200 hover:text-green-200"
+              class="cursor-pointer transition-colors duration-200"
+              [ngClass]="{ 'text-green-200 hover:text-green-300': isDarkMode.value, 'text-green-800 hover:text-green-600': !isDarkMode.value }"
               (click)="logOut()"
             >Logout</span>
           </li>
@@ -81,84 +99,21 @@
       <!-- Dark Mode Toggle -->
       <button
         (click)="toggleDarkMode()"
-        class="p-2 rounded-full bg-green-800 hover:bg-green-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+        class="p-2 rounded-full transition duration-200 focus:outline-none focus:ring-2"
+        [ngClass]="{ 
+          'bg-gray-800 hover:bg-gray-700 focus:ring-green-500': isDarkMode.value, 
+          'bg-green-200 hover:bg-green-300 focus:ring-green-500': !isDarkMode.value 
+        }"
         type="button"
         aria-label="Toggle dark mode"
       >
-            @if(!isDarkMode) {
-              <i class="fa-solid fa-moon text-white transition-all duration-300"></i>
-
-            }
-            @else {
-              <i class="fa-solid fa-sun text-yellow-300 transition-all duration-300"></i>
-            }
+        @if(!isDarkMode.value) {
+          <i class="fa-solid fa-moon text-green-700"></i>
+        }
+        @else {
+          <i class="fa-solid fa-sun text-yellow-400"></i>
+        }
       </button>
-    </div>
-
-    <!-- Mobile Menu -->
-    <div class="hidden w-full md:hidden" id="navbar-default">
-      <ul class="flex flex-col p-4 mt-4 space-y-4 text-sm font-medium bg-green-800 rounded-lg">
-        @if(localIsLogin) {
-          @for (item of pages; track $index) {
-            <li>
-              <a
-                routerLink="{{ item.path }}"
-                routerLinkActive="text-green-300 font-semibold"
-                class="block py-2 px-4 hover:bg-green-700 rounded transition duration-200"
-              >
-                {{ item.title }}
-              </a>
-            </li>
-          }
-        }
-        @if(!localIsLogin) {
-          @for (item of authpages; track $index) {
-            <li>
-              <a
-                routerLink="{{ item.path }}"
-                routerLinkActive="text-green-300 font-semibold"
-                class="block py-2 px-4 hover:bg-green-700 rounded transition duration-200"
-              >
-                {{ item.title }}
-              </a>
-            </li>
-          }
-        }
-        @if(localIsLogin) {
-          <li>
-            <a
-              routerLink="/cart"
-              class=" py-2 px-4 hover:bg-green-700 rounded transition duration-200 flex items-center space-x-2"
-            >
-              <i class="fa-solid fa-cart-shopping text-xl"></i>
-              <span>Cart ({{ numOfCartItems }})</span>
-            </a>
-          </li>
-          <li>
-            <span
-              class="block py-2 px-4 hover:bg-green-700 rounded transition duration-200 cursor-pointer"
-              (click)="logOut()"
-            >Logout</span>
-          </li>
-          <li>
-            <button
-              (click)="toggleDarkMode()"
-              class="w-full text-left py-2 px-4 hover:bg-green-700 rounded transition duration-200 flex items-center space-x-2"
-              type="button"
-              aria-label="Toggle dark mode"
-            >
-            @if(!isDarkMode) {
-              <i class="fa-solid fa-moon text-white"></i>
-
-            }
-            @else {
-              <i class="fa-solid fa-sun text-yellow-300"></i>
-            }
-              <span>{{ isDarkMode ? 'Light Mode' : 'Dark Mode' }}</span>
-            </button>
-          </li>
-        }
-      </ul>
     </div>
   </div>
 </nav>

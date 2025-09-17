@@ -1,6 +1,11 @@
 <app-navbar></app-navbar>
-<div class="">
-    <router-outlet></router-outlet>
+<div
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+  class="min-h-screen transition-colors duration-300"
+>
+  <router-outlet></router-outlet>
 </div>
-
 <app-footer></app-footer>

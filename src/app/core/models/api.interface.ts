@@ -3,6 +3,7 @@ export interface Response<T> {
   metadata: Metadata
   data: T[]
 }
+export type Mode = 'light' | 'dark';
 export interface wishlistResponse {
   count: number
   data: any[]

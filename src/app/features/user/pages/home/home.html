@@ -1,101 +1,125 @@
 <app-hero></app-hero>
 <app-spinner [isLoading]="isCartUpdated"></app-spinner>
 
-<owl-carousel-o [options]="customOptions" >
+<!-- Category Carousel -->
+<owl-carousel-o [options]="customOptions">
   @for (slide of categories; track slide._id) {
     <ng-template carouselSlide [id]="slide._id">
-      <div class="my-10 flex flex-col items-center bg-white rounded-xl shadow-md overflow-hidden p-4 hover:shadow-lg transition duration-300">
-        <!-- الصورة -->
-        <img class="h-40 w-40 object-cover rounded-lg mb-3" 
-             [src]="slide.image" 
-             [alt]="slide.name" 
-             [title]="slide.name" />
+      <div
+        [ngClass]="{
+          'bg-gray-800 text-green-100 shadow-gray-700': isDarkMode,
+          'bg-white text-green-900 shadow-gray-200': !isDarkMode
+        }"
+        class="my-10 flex flex-col items-center rounded-xl shadow-md overflow-hidden p-4 hover:shadow-lg transition duration-300"
+      >
+        <!-- Image -->
+        <img
+          class="h-40 w-40 object-cover rounded-lg mb-3"
+          [src]="slide.image"
+          [alt]="slide.name"
+          [title]="slide.name"
+        />
 
-        <!-- العنوان -->
-        <h2 class="text-base font-semibold text-gray-800 truncate">{{ slide.name }}</h2>
+        <!-- Title -->
+        <h2
+          class="text-base font-semibold truncate"
+          [ngClass]="{ 'text-green-100': isDarkMode, 'text-gray-800': !isDarkMode }"
+        >
+          {{ slide.name }}
+        </h2>
       </div>
     </ng-template>
   }
 </owl-carousel-o>
 
-
-
-<div class="div">
-
-</div>
-<form class="mx-auto pt-4 flex flex-col md:flex-row items-center justify-between gap-4 w-11/12">
+<form
+  class="mx-auto pt-4 flex flex-col md:flex-row items-center justify-between gap-4 w-11/12"
+  [ngClass]="{ 'text-green-100': isDarkMode, 'text-green-900': !isDarkMode }"
+>
   <!-- Search -->
   <div class="relative w-full md:w-1/2">
     <div class="absolute inset-y-0 left-0 flex items-center ps-3 pointer-events-none">
       <svg
-        class="w-4 h-4 text-gray-500"
+        class="w-4 h-4"
+        [ngClass]="{ 'text-gray-400': isDarkMode, 'text-gray-500': !isDarkMode }"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
-        viewBox="0 0 20 20">
+        viewBox="0 0 20 20"
+      >
         <path
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+        />
       </svg>
     </div>
     <input
       type="search"
       id="default-search"
       (input)="search($event.target.value.toLowerCase())"
-      class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-emerald-500 focus:border-emerald-500"
+      class="block w-full p-3 ps-10 text-sm rounded-lg transition duration-200"
+      [ngClass]="{
+        'text-gray-200 bg-gray-700 border-gray-600 focus:ring-green-400 focus:border-green-400': isDarkMode,
+        'text-gray-900 bg-gray-50 border-gray-300 focus:ring-green-500 focus:border-green-500': !isDarkMode
+      }"
       placeholder="Search products..."
-      required />
+      required
+    />
   </div>
 
   <!-- Products per page -->
-<div class="flex items-center gap-2">
-  <label for="per-page" class="text-sm font-medium text-gray-700 whitespace-nowrap">
-    Products per page:
-  </label>
-  
-  <select
-    id="per-page"
-    [(ngModel)]="paginationparams.limit"
-    [ngModelOptions]="{standalone: true}"
-    (change)="onChangeLimit($event)"
-    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-           focus:ring-emerald-500 focus:border-emerald-500 block w-28 p-2">
-    @for (item of [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]; track $index) {
-      <option [value]="item">
-        {{ item }}
-      </option>
-    }
-  </select>
-</div>
-
-</form>
-<div class="items flex flex-col">
-
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-6 gap-3 mx-auto pt-3">
-      @if(isLoading) {
-  
-      @for (item of [0 , 0 , 0 , 0 , 0 , 0 ,0 , 0 , 0 , 0,0 ,0]; track $index) {
-  
-      <div class="">
-          <div class="h-60 animate-pulse rounded  bg-gray-400"></div>
-  
-          <div class="h-4 bg-gray-400 mt-2 w-30"></div>
-  
-          <div class="h-4 bg-gray-400 mt-2 w-70"></div>
-  
-      </div>
+  <div class="flex items-center gap-2">
+    <label
+      for="per-page"
+      class="text-sm font-medium whitespace-nowrap"
+      [ngClass]="{ 'text-gray-300': isDarkMode, 'text-gray-700': !isDarkMode }"
+    >
+      Products per page:
+    </label>
+    <select
+      id="per-page"
+      [(ngModel)]="paginationparams.limit"
+      [ngModelOptions]="{ standalone: true }"
+      (change)="onChangeLimit($event)"
+      class="text-sm rounded-lg block w-28 p-2 transition duration-200"
+      [ngClass]="{
+        'bg-gray-700 border-gray-600 text-gray-200 focus:ring-green-400 focus:border-green-400': isDarkMode,
+        'bg-gray-50 border-gray-300 text-gray-900 focus:ring-green-500 focus:border-green-500': !isDarkMode
+      }"
+    >
+      @for (item of [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60]; track $index) {
+        <option [value]="item">
+          {{ item }}
+        </option>
       }
-      }@else {
-      @for (product of Filteredproducts.value; track $index) {
-      <app-product-card [product]="product"></app-product-card>
-      }
-      <!-- Pagination Controls -->
-      
-    } 
+    </select>
   </div>
+</form>
+
+<div class="items flex flex-col">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3 mx-auto pt-3">
+    @if (isLoading) {
+      @for (item of [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; track $index) {
+        <div
+          class=""
+          [ngClass]="{ 'bg-gray-700': isDarkMode, 'bg-gray-400': !isDarkMode }"
+        >
+          <div class="h-60 animate-pulse rounded"></div>
+          <div class="h-4 mt-2 w-30" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
+          <div class="h-4 mt-2 w-70" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
+        </div>
+      }
+    } @else {
+      @for (product of Filteredproducts.value; track $index) {
+        <app-product-card [product]="product"></app-product-card>
+      }
+    }
+  </div>
+
+  <!-- Pagination Controls -->
   <div class="Pagination mx-auto">
     <nav aria-label="Page navigation example" class="block py-10">
       <ul class="inline-flex -space-x-px text-base h-10">
@@ -104,38 +128,45 @@
           <button
             (click)="changePage(paginationparams.page! - 1)"
             [disabled]="paginationparams.page === 1"
-            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight 
-                   text-gray-500 bg-white border border-e-0 border-gray-300 
-                   rounded-s-lg hover:bg-gray-100 hover:text-gray-700 
-                   disabled:opacity-50 disabled:cursor-not-allowed">
+            class="flex items-center justify-center px-4 h-10 ms-0 leading-tight border border-e-0 rounded-s-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            [ngClass]="{
+              'text-gray-300 bg-gray-800 border-gray-600 hover:bg-gray-700 hover:text-green-300': isDarkMode,
+              'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-green-600': !isDarkMode
+            }"
+          >
             Previous
           </button>
         </li>
-    
+
         <!-- Page Numbers -->
         @for (page of pages; track $index) {
           <li>
             <button
               (click)="changePage($index + 1)"
-              [class.bg-emerald-600]="paginationparams.page === $index + 1"
-              [class.text-gray-300]="paginationparams.page === $index + 1"
-              class="flex items-center justify-center px-4 h-10 leading-tight 
-                     text-black bg-white border border-gray-300 
-                     hover:bg-gray-100 hover:text-gray-700">
+              class="flex items-center justify-center px-4 h-10 leading-tight border transition duration-200"
+              [ngClass]="{
+                'bg-green-600 text-gray-100 border-gray-600': isDarkMode && paginationparams.page === $index + 1,
+                'text-gray-300 bg-gray-800 border-gray-600 hover:bg-gray-700 hover:text-green-300': isDarkMode && paginationparams.page !== $index + 1,
+                'bg-green-500 text-white border-gray-300': !isDarkMode && paginationparams.page === $index + 1,
+                'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-green-600': !isDarkMode && paginationparams.page !== $index + 1
+              }"
+            >
               {{ $index + 1 }}
             </button>
           </li>
         }
-    
+
         <!-- Next -->
         <li>
           <button
             (click)="changePage(paginationparams.page! + 1)"
             [disabled]="paginationparams.page === metadata.numberOfPages"
-            class="flex items-center justify-center px-4 h-10 leading-tight 
-                   text-gray-500 bg-white border border-gray-300 
-                   rounded-e-lg hover:bg-gray-100 hover:text-gray-700 
-                   disabled:opacity-50 disabled:cursor-not-allowed">
+            class="flex items-center justify-center px-4 h-10 leading-tight border rounded-e-lg transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            [ngClass]="{
+              'text-gray-300 bg-gray-800 border-gray-600 hover:bg-gray-700 hover:text-green-300': isDarkMode,
+              'text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-green-600': !isDarkMode
+            }"
+          >
             Next
           </button>
         </li>

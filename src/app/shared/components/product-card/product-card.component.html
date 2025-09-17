@@ -1,8 +1,12 @@
-  <app-spinner [isLoading]="isCartUpdated"></app-spinner>
+<app-spinner [isLoading]="isCartUpdated"></app-spinner>
 
 <div
   [routerLink]="['/product', product.id, product.slug]"
-  class=" cursor-pointer hover:scale-105 transition-all duration-500 group relative max-w-sm bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400 w-[250px] mx-auto"
+  [ngClass]="{
+    'bg-gray-800 text-green-100 border-gray-700 hover:border-green-400': isDarkMode,
+    'bg-white text-green-900 border-gray-200 hover:border-green-500': !isDarkMode
+  }"
+  class="cursor-pointer hover:scale-105 transition-all duration-500 group relative max-w-sm rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 w-[250px] mx-auto"
 >
   <!-- Image Wrapper -->
   <div class="relative">
@@ -13,51 +17,56 @@
     />
 
     <!-- Wishlist Heart -->
-     <!-- Wishlist Heart -->
-    <!-- <button
-      class="cursor-pointer absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition duration-300 group-hover:bg-green-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-    >
-      <ng-icon
-        [name]="isInWishlist(product) ? 'faSolidHeart' : 'faHeart'"
-        class="transition group-hover:text-white"
-        [ngClass]="{ 'text-red-500': isInWishlist(product) }"
-      ></ng-icon>
-    </button> -->
-
     <button
       (click)="toggleWishlist(product); $event.stopPropagation()"
-      class="cursor-pointer absolute top-3 right-3 bg-white text-zinc-600 rounded-full p-2 shadow-md transition duration-300 group-hover:bg-green-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-      >
+      class="cursor-pointer absolute top-3 right-3 rounded-full p-2 shadow-md transition duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+      [ngClass]="{
+        'bg-gray-700 text-green-300 group-hover:bg-green-500 group-hover:text-white focus:ring-green-400': isDarkMode,
+        'bg-white text-green-600 group-hover:bg-green-500 group-hover:text-white focus:ring-green-500': !isDarkMode,
+        'text-red-500': isInWishlist(product)
+      }"
+    >
       <i
-      class="cursor-pointer fa-solid fa-heart transition group-hover:text-white"
-      [ngClass]="{ 'text-red-500': isInWishlist(product) }"
+        class="cursor-pointer fa-solid fa-heart transition"
+        [ngClass]="{ 'text-red-500': isInWishlist(product) }"
       ></i>
     </button>
   </div>
 
   <!-- Content -->
   <div class="p-4 space-y-2">
-    <h2 class="text-lg font-semibold text-gray-800 truncate">
+    <h2
+      class="text-lg font-semibold truncate"
+      [ngClass]="{ 'text-green-100': isDarkMode, 'text-gray-800': !isDarkMode }"
+    >
       {{ product.title }}
     </h2>
 
     <!-- Rating -->
-    <div class="flex items-center text-yellow-500">
-      @for (star of [].constructor(5); let i = $index; track i) { @if (i <
-      product.ratingsAverage) {
-      <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-        <path
-          d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
-        />
-      </svg>
-      } @else {
-      <svg class="h-4 w-4 text-gray-300" viewBox="0 0 20 20">
-        <path
-          d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
-        />
-      </svg>
-      } }
-      <span class="ml-2 text-sm text-gray-500">
+    <div class="flex items-center text-yellow-400">
+      @for (star of [].constructor(5); let i = $index; track i) {
+        @if (i < product.ratingsAverage) {
+          <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+            <path
+              d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
+            />
+          </svg>
+        } @else {
+          <svg
+            class="h-4 w-4"
+            [ngClass]="{ 'text-gray-600': isDarkMode, 'text-gray-300': !isDarkMode }"
+            viewBox="0 0 20 20"
+          >
+            <path
+              d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
+            />
+          </svg>
+        }
+      }
+      <span
+        class="ml-2 text-sm"
+        [ngClass]="{ 'text-gray-400': isDarkMode, 'text-gray-500': !isDarkMode }"
+      >
         ({{ product.ratingsQuantity }} reviews)
       </span>
     </div>
@@ -65,30 +74,42 @@
     <!-- Price -->
     <div class="flex items-center space-x-2">
       @if (product.priceAfterDiscount) {
-      <span class="text-xl font-bold text-green-600">
-        {{ product.priceAfterDiscount | currency }}
-      </span>
-      <span class="line-through text-gray-500">
-        {{ product.price | currency }}
-      </span>
+        <span
+          class="text-xl font-bold"
+          [ngClass]="{ 'text-green-400': isDarkMode, 'text-green-600': !isDarkMode }"
+        >
+          {{ product.priceAfterDiscount | currency }}
+        </span>
+        <span
+          class="line-through"
+          [ngClass]="{ 'text-gray-500': isDarkMode, 'text-gray-400': !isDarkMode }"
+        >
+          {{ product.price | currency }}
+        </span>
       } @else {
-      <span class="text-xl font-bold text-gray-800">
-        {{ product.price | currency }}
-      </span>
+        <span
+          class="text-xl font-bold"
+          [ngClass]="{ 'text-green-200': isDarkMode, 'text-gray-800': !isDarkMode }"
+        >
+          {{ product.price | currency }}
+        </span>
       }
     </div>
 
-<!-- Add to Cart -->
-<button
-  (click)="addToCart(product._id); $event.stopPropagation();"
-  class="opacity-0 translate-y-72 group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-105 cursor-pointer mt-3 w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-500 ease-out"
->
-  <ng-icon
-    name="faSolidCartShopping"
-    class="inline-block w-4 h-4 mr-2"
-  ></ng-icon>
-  Add to Cart
-</button>
-
+    <!-- Add to Cart -->
+    <button
+      (click)="addToCart(product._id); $event.stopPropagation()"
+      class="opacity-0 translate-y-72 group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-105 cursor-pointer mt-3 w-full font-medium py-2 px-4 rounded-lg transition-all duration-500 ease-out"
+      [ngClass]="{
+        'bg-green-600 hover:bg-green-700 text-white': isDarkMode,
+        'bg-green-500 hover:bg-green-600 text-white': !isDarkMode
+      }"
+    >
+      <ng-icon
+        name="faSolidCartShopping"
+        class="inline-block w-4 h-4 mr-2"
+      ></ng-icon>
+      Add to Cart
+    </button>
   </div>
 </div>
