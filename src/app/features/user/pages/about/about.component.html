@@ -1,0 +1,250 @@
+<div
+  class="min-h-screen transition-colors duration-300"
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+>
+  <!-- Spinner -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+
+  <!-- Skeleton for Initial Loading -->
+  @if (isFirstLoading) {
+    <div class="container mx-auto px-4 py-8">
+      <div class="text-center">
+        <div class="h-8 w-48 bg-gray-300 rounded animate-pulse mx-auto" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+      </div>
+      <div class="mt-8 text-center">
+        <div class="h-6 w-3/4 bg-gray-300 rounded animate-pulse mx-auto" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+        <div class="h-6 w-2/3 bg-gray-300 rounded animate-pulse mx-auto mt-2" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+      </div>
+      <div class="mt-12 flex flex-col md:flex-row gap-8">
+        <div class="md:w-1/3">
+          <div class="h-48 w-48 bg-gray-300 rounded-full animate-pulse mx-auto" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-6 w-32 bg-gray-300 rounded animate-pulse mx-auto mt-4" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+        </div>
+        <div class="md:w-2/3">
+          <div class="h-8 w-40 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-4 w-full bg-gray-300 rounded animate-pulse mt-4" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-4 w-5/6 bg-gray-300 rounded animate-pulse mt-2" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-10 w-32 bg-gray-300 rounded-lg animate-pulse mt-4" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="container mx-auto px-4 py-8">
+      <!-- Header -->
+      <h1
+        class="text-3xl font-bold text-center"
+        [ngClass]="{
+          'text-gray-100': isDarkMode,
+          'text-gray-800': !isDarkMode
+        }"
+      >
+        About Our Store
+      </h1>
+
+      <!-- Site Description -->
+      <div
+        class="mt-8 text-center max-w-3xl mx-auto"
+        [ngClass]="{
+          'text-gray-300': isDarkMode,
+          'text-gray-600': !isDarkMode
+        }"
+      >
+        <p class="text-lg">
+          Welcome to our e-commerce platform, your one-stop shop for a wide range of products including clothes, laptops, TVs, and more! We are dedicated to providing high-quality products at competitive prices, with a seamless shopping experience tailored to your needs.
+        </p>
+        <p class="mt-4 text-lg">
+          Our mission is to bring convenience and variety to your fingertips, ensuring every purchase is a delight. Explore our categories, discover top brands, and enjoy a user-friendly interface designed with care.
+        </p>
+      </div>
+
+      <!-- About Amr -->
+      <div class="mt-12 flex flex-col md:flex-row gap-8 items-center">
+        <!-- Photo -->
+        <div class="md:w-1/3 flex justify-center">
+          <img
+            src="/images/amr.jpeg"
+            alt="Amr Shawky"
+            class="w-48 h-48 rounded-full object-cover shadow-lg"
+            [ngClass]="{
+              'border-gray-700': isDarkMode,
+              'border-green-200': !isDarkMode
+            }"
+          />
+        </div>
+        <!-- Bio -->
+         <div class="md:w-2/3 text-center md:text-left">
+          <h2
+            class="text-2xl font-semibold"
+            [ngClass]="{
+              'text-gray-100': isDarkMode,
+              'text-gray-800': !isDarkMode
+            }"
+          >
+            Designed by Amr Shawky
+          </h2>
+          <p
+            class="mt-4 text-lg"
+            [ngClass]="{
+              'text-gray-300': isDarkMode,
+              'text-gray-600': !isDarkMode
+            }"
+          >
+            This e-commerce platform was crafted with passion and precision by Amr Shawky. With a focus on user experience and modern design, Amr built a site that’s both functional and visually appealing, ensuring you enjoy every moment of your shopping journey.
+          </p>
+          <a
+            href="mailto:amrshawky936@gmail.com"
+            class="mt-4 inline-block px-6 py-2 rounded-lg font-medium transition duration-300"
+            [ngClass]="{
+              'bg-green-600 hover:bg-green-700 text-white': isDarkMode,
+              'bg-green-500 hover:bg-green-600 text-white': !isDarkMode
+            }"
+          >
+            Contact Amr
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="mt-12 max-w-lg mx-auto">
+        <h2
+          class="text-2xl font-semibold text-center"
+          [ngClass]="{
+            'text-gray-100': isDarkMode,
+            'text-gray-800': !isDarkMode
+          }"
+        >
+          Get in Touch
+        </h2>
+        <form
+          [formGroup]="contactForm"
+          (ngSubmit)="onSubmit()"
+          class="mt-6 space-y-4"
+          [ngClass]="{
+            'text-gray-300': isDarkMode,
+            'text-gray-600': !isDarkMode
+          }"
+        >
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium"
+              [ngClass]="{
+                'text-gray-200': isDarkMode,
+                'text-gray-700': !isDarkMode
+              }"
+            >
+              Name
+            </label>
+            <input
+              id="name"
+              formControlName="name"
+              type="text"
+              class="mt-1 w-full p-3 rounded-lg shadow-sm border focus:ring-2 focus:ring-green-500 focus:outline-none transition duration-300"
+              [ngClass]="{
+                'bg-gray-800 border-gray-700 text-gray-100': isDarkMode,
+                'bg-white border-gray-200 text-gray-900': !isDarkMode
+              }"
+              placeholder="Your Name"
+            />
+            @if (contactForm.get('name')?.invalid && contactForm.get('name')?.touched) {
+              <p class="text-red-400 text-sm mt-1">Name is required.</p>
+            }
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium"
+              [ngClass]="{
+                'text-gray-200': isDarkMode,
+                'text-gray-700': !isDarkMode
+              }"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              class="mt-1 w-full p-3 rounded-lg shadow-sm border focus:ring-2 focus:ring-green-500 focus:outline-none transition duration-300"
+              [ngClass]="{
+                'bg-gray-800 border-gray-700 text-gray-100': isDarkMode,
+                'bg-white border-gray-200 text-gray-900': !isDarkMode
+              }"
+              placeholder="Your Email"
+            />
+            @if (contactForm.get('email')?.invalid && contactForm.get('email')?.touched) {
+              <p class="text-red-400 text-sm mt-1">Please enter a valid email address.</p>
+            }
+          </div>
+          <div>
+            <label
+              for="message"
+              class="block text-sm font-medium"
+              [ngClass]="{
+                'text-gray-200': isDarkMode,
+                'text-gray-700': !isDarkMode
+              }"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              formControlName="message"
+              class="mt-1 w-full p-3 rounded-lg shadow-sm border focus:ring-2 focus:ring-green-500 focus:outline-none transition duration-300"
+              [ngClass]="{
+                'bg-gray-800 border-gray-700 text-gray-100': isDarkMode,
+                'bg-white border-gray-200 text-gray-900': !isDarkMode
+              }"
+              rows="5"
+              placeholder="Your Message"
+            ></textarea>
+            @if (contactForm.get('message')?.invalid && contactForm.get('message')?.touched) {
+              <p class="text-red-400 text-sm mt-1">Message is required.</p>
+            }
+          </div>
+          <button
+            type="submit"
+            class="w-full py-3 rounded-lg font-medium transition duration-300"
+            [ngClass]="{
+              'bg-green-600 hover:bg-green-700 text-white': isDarkMode,
+              'bg-green-500 hover:bg-green-600 text-white': !isDarkMode
+            }"
+            [disabled]="contactForm.invalid || isLoading"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  }
+</div>

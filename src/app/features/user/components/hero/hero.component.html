@@ -31,7 +31,7 @@
         [routerLink]="['/products']"
         class="cursor-pointer px-8 py-3 font-semibold rounded-lg shadow-lg transition duration-300 transform hover:scale-105 animate-pulse-once"
         [ngClass]="{
-          'bg-green-600 text-white hover:bg-green-700': isDarkMode,
+          'bg-white text-green-600 hover:bg-green-900': isDarkMode,
           'bg-green-500 text-white hover:bg-green-600': !isDarkMode
         }"
       >
@@ -41,7 +41,7 @@
         [routerLink]="['/about']"
         class="cursor-pointer px-8 py-3 border-2 font-semibold rounded-lg transition duration-300 transform hover:scale-105"
         [ngClass]="{
-          'bg-transparent border-gray-300 text-gray-300 hover:bg-gray-700 hover:text-green-400': isDarkMode,
+          'bg-transparent border-green-900 text-green-900 hover:bg-white hover:text-green-300': isDarkMode,
           'bg-transparent border-white text-white hover:bg-white hover:text-green-900': !isDarkMode
         }"
       >
