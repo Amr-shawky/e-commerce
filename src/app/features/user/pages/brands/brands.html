@@ -1,18 +1,83 @@
-<div class="">
-  <h1 class="text-2xl font-bold text-center p-7">Brands Page</h1>
+<div
+  class="min-h-screen transition-colors duration-300"
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+>
+  <!-- Spinner -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 w-11/12 mx-auto pt-3">
-    @for (brand of Brands; track brand._id) {
-      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm">
-        <a href="#">
-          <img class="p-8 rounded-t-lg" [src]="brand.image" alt="product image" />
-        </a>
-        <div class="px-5 pb-5">
-          <a href="#">
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ brand.name }}</h5>
-          </a>
+  <!-- Brands Header -->
+  <h1
+    class="text-2xl font-bold text-center p-7"
+    [ngClass]="{
+      'text-gray-100': isDarkMode,
+      'text-gray-800': !isDarkMode
+    }"
+  >
+    Brands Page
+  </h1>
+
+  <!-- Skeleton for Initial Loading -->
+  @if (isFirstLoading) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 w-11/12 mx-auto pt-3">
+      @for (item of [0, 0, 0, 0, 0, 0]; track $index) {
+        <div
+          class="max-w-sm rounded-lg shadow-sm"
+          [ngClass]="{
+            'bg-gray-800 border-gray-700': isDarkMode,
+            'bg-white border-gray-200': !isDarkMode
+          }"
+        >
+          <div class="p-8">
+            <div class="w-full h-32 bg-gray-300 rounded-t-lg animate-pulse" [ngClass]="{
+                'bg-gray-700': isDarkMode,
+                'bg-gray-300': !isDarkMode
+              }"></div>
+          </div>
+          <div class="px-5 pb-5">
+            <div class="h-6 w-24 bg-gray-300 rounded animate-pulse" [ngClass]="{
+                'bg-gray-600': isDarkMode,
+                'bg-gray-300': !isDarkMode
+              }"></div>
+          </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  } @else {
+    <!-- Brands Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 w-11/12 mx-auto pt-3">
+      @for (brand of Brands; track brand._id) {
+        <div
+          class="max-w-sm rounded-lg shadow-sm transition-all duration-300 hover:shadow-lg"
+          [ngClass]="{
+            'bg-gray-800 border-gray-700 text-gray-100 hover:border-green-400': isDarkMode,
+            'bg-white border-gray-200 text-gray-900 hover:border-green-400': !isDarkMode
+          }"
+        >
+          <a href="#">
+            <img
+              class="p-8 rounded-t-lg"
+              [src]="brand.image"
+              [alt]="brand.name"
+            />
+          </a>
+          <div class="px-5 pb-5">
+            <a href="#">
+              <h5
+                class="text-xl font-semibold tracking-tight"
+                [ngClass]="{
+                  'text-gray-100': isDarkMode,
+                  'text-gray-900': !isDarkMode
+                }"
+              >
+                {{ brand.name }}
+              </h5>
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+  }
 </div>

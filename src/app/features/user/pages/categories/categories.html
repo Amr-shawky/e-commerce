@@ -1,28 +1,79 @@
-<div class="">
-  <h1 class="text-3xl font-bold text-center">Categories Page</h1>
+<div
+  class="min-h-screen transition-colors duration-300"
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+>
+  <!-- Spinner -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
 
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 w-11/12 mx-auto pt-6"
+  <!-- Categories Header -->
+  <h1
+    class="text-3xl font-bold text-center p-7"
+    [ngClass]="{
+      'text-gray-100': isDarkMode,
+      'text-gray-800': !isDarkMode
+    }"
   >
-    @for (category of Categories; track category._id) {
-      <div
-        class="bg-white border border-gray-200 rounded-lg shadow-sm hover:border-green-500 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
-      >
-        <a href="#">
-          <img
-            class="h-48 w-full object-cover rounded-t-lg"
-            [src]="category.image"
-            alt="category image"
-          />
-        </a>
-        <div class="px-5 py-4 flex justify-center">
-          <h5
-            class="text-lg font-semibold text-green-600 text-center"
-          >
-            {{ category.name }}
-          </h5>
+    Categories Page
+  </h1>
+
+  <!-- Skeleton for Initial Loading -->
+  @if (isFirstLoading) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 w-11/12 mx-auto pt-6">
+      @for (item of [0, 0, 0, 0, 0, 0]; track $index) {
+        <div
+          class="rounded-lg shadow-sm flex flex-col"
+          [ngClass]="{
+            'bg-gray-800 border-gray-700': isDarkMode,
+            'bg-white border-gray-200': !isDarkMode
+          }"
+        >
+          <div class="w-full h-48 bg-gray-300 rounded-t-lg animate-pulse" [ngClass]="{
+              'bg-gray-700': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="px-5 py-4 flex justify-center">
+            <div class="h-5 w-24 bg-gray-300 rounded animate-pulse" [ngClass]="{
+                'bg-gray-600': isDarkMode,
+                'bg-gray-300': !isDarkMode
+              }"></div>
+          </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  } @else {
+    <!-- Categories Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6 w-11/12 mx-auto pt-6">
+      @for (category of Categories; track category._id) {
+        <div
+          class="rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col"
+          [ngClass]="{
+            'bg-gray-800 border-gray-700 text-gray-100 hover:border-green-400': isDarkMode,
+            'bg-white border-gray-200 text-gray-900 hover:border-green-400': !isDarkMode
+          }"
+        >
+          <a href="#">
+            <img
+              class="h-48 w-full object-cover rounded-t-lg"
+              [src]="category.image"
+              [alt]="category.name"
+            />
+          </a>
+          <div class="px-5 py-4 flex justify-center">
+            <h5
+              class="text-lg font-semibold text-center"
+              [ngClass]="{
+                'text-green-400': isDarkMode,
+                'text-green-600': !isDarkMode
+              }"
+            >
+              {{ category.name }}
+            </h5>
+          </div>
+        </div>
+      }
+    </div>
+  }
 </div>
