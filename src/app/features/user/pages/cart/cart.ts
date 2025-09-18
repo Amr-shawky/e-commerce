@@ -1,32 +1,52 @@
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CartResponse } from './../../../../core/models/api.interface';
-import { Component, OnInit } from '@angular/core';
+import { CartResponse } from '../../../../core/models/api.interface';
 import { CartService } from '../../../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
-import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
+import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+import { ModeService } from '../../../../core/services/mode.service';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  imports: [SpinnerComponent],
+  standalone: true,
+  imports: [SpinnerComponent,CommonModule],
   templateUrl: './cart.html',
   styleUrls: ['./cart.css'],
 })
-export class Cart implements OnInit {
+export class Cart implements OnInit, OnDestroy {
   cartData: CartResponse | null = null;
+  isFirstLoading = true;
+  isLoading = false;
+  private modeSubscription!: Subscription;
+  private cartService = inject(CartService);
+  private toastr = inject(ToastrService);
+  private router = inject(Router);
+  private modeService = inject(ModeService);
 
-  isFirstLoading = true; // لأول مرة فقط
-  isLoading = false;     // باقي العمليات
-  constructor(
-    private cartService: CartService,
-    private toastr: ToastrService,
-    private router: Router
-  ) {}
+  ngOnInit() {
+    this.modeSubscription = this.modeService.mode.subscribe((mode) => {
+      console.log('CartComponent: Mode changed to:', mode); // Debugging
+    });
+    this.getallcarts();
+  }
+
+  ngOnDestroy(): void {
+    if (this.modeSubscription) {
+      this.modeSubscription.unsubscribe();
+    }
+  }
+
+  get isDarkMode(): boolean {
+    return this.modeService.mode.value === 'dark';
+  }
 
   getallcarts() {
     if (!this.cartData) {
-      this.isFirstLoading = true; // Skeleton
+      this.isFirstLoading = true;
     } else {
-      this.isLoading = true; // Spinner
+      this.isLoading = true;
     }
 
     this.cartService.getCart().subscribe({
@@ -44,10 +64,6 @@ export class Cart implements OnInit {
         this.isLoading = false;
       },
     });
-  }
-
-  ngOnInit() {
-    this.getallcarts();
   }
 
   updateCount(productId: string, count: number) {
@@ -91,10 +107,10 @@ export class Cart implements OnInit {
       },
     });
   }
+
   checkOutSession() {
-    this.cartService.CartId.next(this.cartData?.cartId || "");
+    this.cartService.CartId.next(this.cartData?.cartId || '');
     this.isLoading = true;
     this.router.navigate(['/checkout']);
-
   }
 }

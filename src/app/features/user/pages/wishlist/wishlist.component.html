@@ -1,98 +1,207 @@
-<div class="container mx-auto px-4 py-8">
+<div
+  class="container mx-auto px-4 py-8 min-h-screen transition-colors duration-300"
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+>
   <!-- Spinner -->
   <app-spinner [isLoading]="isLoading"></app-spinner>
 
   <!-- Wishlist Header -->
-  <h1 class="text-3xl font-bold text-gray-800 mb-6">My Wishlist</h1>
+  <h1
+    class="text-3xl font-bold mb-6"
+    [ngClass]="{
+      'text-gray-100': isDarkMode,
+      'text-gray-800': !isDarkMode
+    }"
+  >
+    My Wishlist
+  </h1>
 
-  <!-- Wishlist Products -->
-  @if (!isLoading && wishlistproducts.length === 0) {
-    <div class="text-center py-10">
-      <p class="text-lg text-gray-500">Your wishlist is empty.</p>
-      <a
-        routerLink="/"
-        class="mt-4 inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition duration-300"
-      >
-        Browse Products
-      </a>
-    </div>
-  } @else {
+  <!-- Skeleton for Initial Loading -->
+  @if (isFirstLoading) {
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
-      @for (product of wishlistproducts; track product._id) {
+      @for (item of [0, 0, 0, 0, 0, 0]; track $index) {
         <div
-          class="cursor-pointer hover:scale-105 transition-all duration-500 group relative bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400 w-[250px] mx-auto"
+          class="w-[250px] mx-auto rounded-2xl shadow-lg overflow-hidden"
+          [ngClass]="{
+            'bg-gray-800': isDarkMode,
+            'bg-white': !isDarkMode
+          }"
         >
-          <!-- Image Wrapper -->
           <div class="relative">
-            <img
-              [src]="product.imageCover"
-              [alt]="product.title"
-              class="w-64 object-cover object-center h-64"
-            />
-
-            <!-- Remove from Wishlist Button -->
-            <button
-              (click)="removeFromWishlist(product._id); $event.stopPropagation()"
-              class="cursor-pointer absolute top-3 right-3 bg-white text-red-600 rounded-full p-2 shadow-md transition duration-300 hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </button>
+            <div class="w-64 h-64 bg-gray-300 rounded animate-pulse" [ngClass]="{ 'bg-gray-700': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
           </div>
-
-          <!-- Content -->
           <div class="p-4 space-y-2">
-            <h2 class="text-lg font-semibold text-gray-800 truncate">
-              {{ product.title }}
-            </h2>
-
-            <!-- Rating -->
-            <div class="flex items-center text-yellow-500">
+            <div class="h-4 w-32 bg-gray-300 rounded animate-pulse" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
+            <div class="flex items-center space-x-1">
               @for (star of [].constructor(5); let i = $index; track i) {
-                @if (i < product.ratingsAverage) {
-                  <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                    <path
-                      d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
-                    />
-                  </svg>
-                } @else {
-                  <svg class="h-4 w-4 text-gray-300" viewBox="0 0 20 20">
-                    <path
-                      d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
-                    />
-                  </svg>
-                }
+                <div class="h-4 w-4 bg-gray-300 rounded animate-pulse" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
               }
-              <span class="ml-2 text-sm text-gray-500">
-                ({{ product.ratingsQuantity }} reviews)
-              </span>
+              <div class="h-4 w-16 bg-gray-300 rounded animate-pulse" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
             </div>
-
-            <!-- Price -->
-            <div class="flex items-center space-x-2">
-              @if (product.priceAfterDiscount) {
-                <span class="text-xl font-bold text-green-600">
-                  {{ product.priceAfterDiscount | currency }}
-                </span>
-                <span class="line-through text-gray-500">
-                  {{ product.price | currency }}
-                </span>
-              } @else {
-                <span class="text-xl font-bold text-gray-800">
-                  {{ product.price | currency }}
-                </span>
-              }
-            </div>
-
-            <!-- View Product -->
-            <a
-              [routerLink]="['/product', product.id, product.slug]"
-              class="block mt-3 w-full bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg text-center transition duration-300"
-            >
-              View Product
-            </a>
+            <div class="h-4 w-24 bg-gray-300 rounded animate-pulse" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
+            <div class="h-8 w-full bg-gray-300 rounded-lg animate-pulse" [ngClass]="{ 'bg-gray-600': isDarkMode, 'bg-gray-300': !isDarkMode }"></div>
           </div>
         </div>
       }
     </div>
+  } @else {
+    <!-- Wishlist Products -->
+    @if (!isLoading && wishlistproducts.length === 0) {
+      <div
+        class="text-center py-10"
+        [ngClass]="{
+          'text-gray-400': isDarkMode,
+          'text-gray-500': !isDarkMode
+        }"
+      >
+        <p class="text-lg">Your wishlist is empty.</p>
+        <a
+          routerLink="/"
+          class="mt-4 inline-block font-medium py-2 px-4 rounded-lg transition duration-300"
+          [ngClass]="{
+            'bg-green-600 hover:bg-green-700 text-white': isDarkMode,
+            'bg-green-500 hover:bg-green-600 text-white': !isDarkMode
+          }"
+        >
+          Browse Products
+        </a>
+      </div>
+    } @else {
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-10">
+        @for (product of wishlistproducts; track product._id) {
+          <div
+            class="cursor-pointer hover:scale-105 transition-all duration-500 group relative rounded-2xl shadow-lg overflow-hidden hover:shadow-xl border-2 border-transparent hover:border-green-400 w-[250px] mx-auto"
+            [ngClass]="{
+              'bg-gray-800 text-gray-100': isDarkMode,
+              'bg-white text-gray-900': !isDarkMode
+            }"
+          >
+            <!-- Image Wrapper -->
+            <div class="relative">
+              <img
+                [src]="product.imageCover"
+                [alt]="product.title"
+                class="w-64 object-cover object-center h-64"
+              />
+
+              <!-- Remove from Wishlist Button -->
+              <button
+                (click)="removeFromWishlist(product._id); $event.stopPropagation()"
+                class="cursor-pointer absolute top-3 right-3 rounded-full p-2 shadow-md transition duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                [ngClass]="{
+                  'bg-gray-700 text-red-400 hover:bg-red-500 hover:text-white': isDarkMode,
+                  'bg-white text-red-600 hover:bg-red-500 hover:text-white': !isDarkMode
+                }"
+              >
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-4 space-y-2">
+              <h2
+                class="text-lg font-semibold truncate"
+                [ngClass]="{
+                  'text-gray-100': isDarkMode,
+                  'text-gray-800': !isDarkMode
+                }"
+              >
+                {{ product.title }}
+              </h2>
+
+              <!-- Rating -->
+              <div
+                class="flex items-center"
+                [ngClass]="{
+                  'text-yellow-400': isDarkMode,
+                  'text-yellow-500': !isDarkMode
+                }"
+              >
+                @for (star of [].constructor(5); let i = $index; track i) {
+                  @if (i < product.ratingsAverage) {
+                    <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                      <path
+                        d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
+                      />
+                    </svg>
+                  } @else {
+                    <svg
+                      class="h-4 w-4"
+                      [ngClass]="{
+                        'text-gray-600': isDarkMode,
+                        'text-gray-300': !isDarkMode
+                      }"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M10 15l-5.878 3.09 1.122-6.545L.487 6.91l6.561-.955L10 0l2.952 5.955 6.561.955-4.757 4.635 1.122 6.545z"
+                      />
+                    </svg>
+                  }
+                }
+                <span
+                  class="ml-2 text-sm"
+                  [ngClass]="{
+                    'text-gray-400': isDarkMode,
+                    'text-gray-500': !isDarkMode
+                  }"
+                >
+                  ({{ product.ratingsQuantity }} reviews)
+                </span>
+              </div>
+
+              <!-- Price -->
+              <div class="flex items-center space-x-2">
+                @if (product.priceAfterDiscount) {
+                  <span
+                    class="text-xl font-bold"
+                    [ngClass]="{
+                      'text-green-400': isDarkMode,
+                      'text-green-600': !isDarkMode
+                    }"
+                  >
+                    {{ product.priceAfterDiscount | currency }}
+                  </span>
+                  <span
+                    class="line-through"
+                    [ngClass]="{
+                      'text-gray-500': isDarkMode,
+                      'text-gray-400': !isDarkMode
+                    }"
+                  >
+                    {{ product.price | currency }}
+                  </span>
+                } @else {
+                  <span
+                    class="text-xl font-bold"
+                    [ngClass]="{
+                      'text-gray-100': isDarkMode,
+                      'text-gray-800': !isDarkMode
+                    }"
+                  >
+                    {{ product.price | currency }}
+                  </span>
+                }
+              </div>
+
+              <!-- View Product -->
+              <a
+                [routerLink]="['/product', product.id, product.slug]"
+                class="block mt-3 w-full font-medium py-2 px-4 rounded-lg text-center transition duration-300"
+                [ngClass]="{
+                  'bg-green-600 hover:bg-green-700 text-white': isDarkMode,
+                  'bg-green-500 hover:bg-green-600 text-white': !isDarkMode
+                }"
+              >
+                View Product
+              </a>
+            </div>
+          </div>
+        }
+      </div>
+    }
   }
 </div>
