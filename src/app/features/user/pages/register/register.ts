@@ -1,24 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { ModeService } from '../../../../core/services/mode.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Response } from '../../../../core/models/api.interface';
+import { Subscription } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { SpinnerComponent } from "../../../../shared/components/spinner/spinner.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule, SpinnerComponent],
   templateUrl: './register.html',
   styleUrls: ['./register.css']
 })
-export class Register {
+export class Register implements OnInit, OnDestroy {
   constructor(private authService: AuthService, 
     private toastr: ToastrService,
-    private router : Router,
+    private router: Router,
   ) {}
-
+  isFirstLoading: boolean = true;
+  isLoading: boolean = false;
+  private modeSubscription!: Subscription;
+  private modeService = inject(ModeService);
   isloading :boolean = false;
+ngOnInit() {
+    this.modeSubscription = this.modeService.mode.subscribe((mode) => {
+      console.log('RegisterComponent: Mode changed to:', mode); // Debugging
+    });
+   //Simulate initial load (replace with actual async check if needed)
+    setTimeout(() => {
+      this.isFirstLoading = false;
+    }, 100); // Adjust delay as needed
+  }
+
+  ngOnDestroy(): void {
+    if (this.modeSubscription) {
+      this.modeSubscription.unsubscribe();
+    }
+  }
   register(value: any) {
     this.isloading = true;
     this.authService.register(value).subscribe({
@@ -99,4 +121,141 @@ export class Register {
       formerrors: this.registerform.errors // Log form-level errors (e.g., mismatch)
     });
   }
+    get isDarkMode(): boolean {
+    return this.modeService.mode.value === 'dark';
+  }
 }
+
+
+// import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+// import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+// import { AuthService } from '../../../../core/services/auth.service';
+// import { ModeService } from '../../../../core/services/mode.service';
+// import { ToastrService } from 'ngx-toastr';
+// import { Router } from '@angular/router';
+// import { SpinnerComponent } from '../../../../shared/components/spinner/spinner.component';
+// import { Subscription } from 'rxjs';
+// import { CommonModule } from '@angular/common';
+
+// @Component({
+//   selector: 'app-register',
+//   standalone: true,
+//   imports: [ReactiveFormsModule, SpinnerComponent,CommonModule],
+//   templateUrl: './register.html',
+//   styleUrls: ['./register.css'],
+// })
+
+// export class Register implements OnInit, OnDestroy {
+//   isFirstLoading: boolean = true;
+//   isLoading: boolean = false;
+//   private modeSubscription!: Subscription;
+//   private authService = inject(AuthService);
+//   private toastr = inject(ToastrService);
+//   private router = inject(Router);
+//   private modeService = inject(ModeService);
+
+//   registerform: FormGroup = new FormGroup(
+//     {
+//       name: new FormControl(null, [
+//         Validators.required,
+//         Validators.minLength(3),
+//         Validators.maxLength(20),
+//         Validators.pattern('^[a-zA-Z]+( [a-zA-Z]+)*$'),
+//       ]),
+//       email: new FormControl(null, [Validators.required, Validators.email]),
+//       password: new FormControl(null, [
+//         Validators.required,
+//         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$'),
+//       ]),
+//       rePassword: new FormControl(null, []),
+//       phone: new FormControl(null, [Validators.required, Validators.pattern('^01[0125][0-9]{8}$')]),
+//     },
+//     { validators: this.matchPasswordValidator }
+//   );
+
+//   constructor() {}
+
+//   ngOnInit() {
+//     this.modeSubscription = this.modeService.mode.subscribe((mode) => {
+//       console.log('RegisterComponent: Mode changed to:', mode); // Debugging
+//     });
+//    Simulate initial load (replace with actual async check if needed)
+//     setTimeout(() => {
+//       this.isFirstLoading = false;
+//     }, 1000); // Adjust delay as needed
+//   }
+
+//   ngOnDestroy(): void {
+//     if (this.modeSubscription) {
+//       this.modeSubscription.unsubscribe();
+//     }
+//   }
+
+  // get isDarkMode(): boolean {
+  //   return this.modeService.mode.value === 'dark';
+  // }
+
+//  Custom validator for matching password and rePassword
+//   matchPasswordValidator(control: import('@angular/forms').AbstractControl) {
+//     const form = control as FormGroup;
+//     const password = form.get('password')?.value;
+//     const rePassword = form.get('rePassword')?.value;
+//     return password === rePassword ? null : { mismatch: true };
+//   }
+
+//   get getnamecontroller() {
+//     return this.registerform.get('name');
+//   }
+//   get getemailcontroller() {
+//     return this.registerform.get('email');
+//   }
+//   get getpasswordcontroller() {
+//     return this.registerform.get('password');
+//   }
+//   get getrePasswordcontroller() {
+//     return this.registerform.get('rePassword');
+//   }
+//   get getphonecontroller() {
+//     return this.registerform.get('phone');
+//   }
+
+//   handlesubmit() {
+//     if (this.registerform.invalid) {
+//       this.registerform.markAllAsTouched();
+//       return;
+//     }
+//     this.register(this.registerform.value);
+//     console.log(this.registerform.value);
+//     console.log(this.registerform);
+//     console.log({
+//       nameerrors: this.registerform.get('name')?.errors,
+//       emailerrors: this.registerform.get('email')?.errors,
+//       passworderrors: this.registerform.get('password')?.errors,
+//       rePassworderrors: this.registerform.get('rePassword')?.errors,
+//       phoneerrors: this.registerform.get('phone')?.errors,
+//       formerrors: this.registerform.errors,
+//     });
+//   }
+
+//   register(value: any) {
+//     this.isLoading = true;
+//     this.authService.register(value).subscribe({
+//       next: (response) => {
+//         console.log('registration successful', response);
+//         this.toastr.success('Registration successful!', 'Success');
+//         this.authService.decodeToken(response.token);
+//         this.registerform.reset();
+//         this.authService.isLogin.next(true);
+//         this.isLoading = false;
+//         this.router.navigate(['/home']);
+//       },
+//       error: (error) => {
+//         console.log('registration failed', error);
+//         if (error?.error?.message) {
+//           this.toastr.error(error.error.message || 'Registration failed. Please try again.', 'Error');
+//         }
+//         this.isLoading = false;
+//       },
+//     });
+//   }
+// }
