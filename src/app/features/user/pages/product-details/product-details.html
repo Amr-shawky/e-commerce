@@ -1,81 +1,243 @@
-@if (isLoading) {
-  <div class="text-center py-10">
-    <p class="text-lg font-medium text-gray-600">Loading product details...</p>
-  </div>
-} @else if (errorMessage) {
-  <div class="text-red-500 text-center py-10 text-lg font-semibold">
-    {{ errorMessage }}
-  </div>
-} @else if (product) {
-  <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
-    <!-- Product Image -->
- <div class="relative">
-  <owl-carousel-o [options]="carouselOptions">
-    @for (img of product.images; track $index) {
-      <ng-template carouselSlide>
-        <img
-          [src]="img"
-          alt="{{ product.title }}"
-          class="w-full h-96 object-cover rounded-2xl shadow-lg"
-        />
-      </ng-template>
-    }
-  </owl-carousel-o>
-</div>
+<div
+  class="min-h-screen transition-colors duration-300"
+  [ngClass]="{
+    'bg-gray-900': isDarkMode,
+    'bg-green-50': !isDarkMode
+  }"
+>
+  <!-- Spinner -->
+  <app-spinner [isLoading]="isLoading"></app-spinner>
 
-    <!-- Product Info -->
-    <div>
-      <h1 class="text-4xl font-bold mb-3 text-gray-800">{{ product.title }}</h1>
-      <p class="text-gray-600 mb-6 leading-relaxed">{{ product.description }}</p>
-
-      <!-- Price -->
-      <div class="mb-6">
-        <span class="text-3xl font-bold text-green-600">
-          {{ product.priceAfterDiscount ? product.priceAfterDiscount : product.price }} EGP
-        </span>
-        @if (product.priceAfterDiscount) {
-          <span class="line-through text-gray-400 ml-3 text-lg">
-            {{ product.price }} EGP
-          </span>
-        }
+  <!-- Skeleton for Initial Loading -->
+  @if (isFirstLoading) {
+    <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div class="relative">
+        <div class="w-full h-96 bg-gray-300 rounded-2xl animate-pulse" [ngClass]="{
+            'bg-gray-700': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
       </div>
-
-      <!-- Ratings -->
-      <div class="flex items-center mb-6">
-        <span class="text-yellow-500 text-xl">⭐</span>
-        <span class="ml-2 text-gray-700">
-          {{ product.ratingsAverage }} / 5 ({{ product.ratingsQuantity }} reviews)
-        </span>
-      </div>
-
-      <!-- Details -->
-      <div class="space-y-2 mb-6">
-        <p><span class="font-semibold">Category:</span> {{ product.category.name }}</p>
-        <p><span class="font-semibold">Brand:</span> {{ product.brand.name }}</p>
-        <p><span class="font-semibold">Available Quantity:</span> {{ product.quantity }}</p>
-      </div>
-
-      <!-- Colors -->
-      @if (product.availableColors?.length) {
-        <div class="mb-6">
-          <p class="font-semibold mb-2">Available Colors:</p>
-          <div class="flex gap-3">
-            @for (color of product.availableColors; track $index) {
-              <span
-                class="w-10 h-10 rounded-full border-2 border-gray-300 cursor-pointer hover:scale-110 transition-transform"
-                [style.backgroundColor]="color"
-              ></span>
-            }
-          </div>
+      <div class="space-y-4">
+        <div class="h-8 w-3/4 bg-gray-300 rounded animate-pulse" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+        <div class="h-4 w-full bg-gray-300 rounded animate-pulse" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+        <div class="h-4 w-5/6 bg-gray-300 rounded animate-pulse" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+        <div class="h-6 w-24 bg-gray-300 rounded animate-pulse" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
+        <div class="flex items-center space-x-2">
+          <div class="h-4 w-16 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-4 w-20 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
         </div>
-      }
-
-      <!-- Action Button -->
-      <div>
-        <button class="bg-green-600 text-white px-8 py-3 rounded-2xl shadow hover:bg-green-700 hover:shadow-lg transition">
-          Add to Cart
-        </button>
+        <div class="space-y-2">
+          <div class="h-4 w-32 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-4 w-28 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-4 w-36 bg-gray-300 rounded animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+        </div>
+        <div class="flex gap-3">
+          <div class="h-10 w-10 bg-gray-300 rounded-full animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+          <div class="h-10 w-10 bg-gray-300 rounded-full animate-pulse" [ngClass]="{
+              'bg-gray-600': isDarkMode,
+              'bg-gray-300': !isDarkMode
+            }"></div>
+        </div>
+        <div class="h-10 w-32 bg-gray-300 rounded-2xl animate-pulse" [ngClass]="{
+            'bg-gray-600': isDarkMode,
+            'bg-gray-300': !isDarkMode
+          }"></div>
       </div>
     </div>
-  </div>
-}
+  } @else if (errorMessage) {
+    <div
+      class="text-center py-10 text-lg font-semibold"
+      [ngClass]="{
+        'text-red-400': isDarkMode,
+        'text-red-500': !isDarkMode
+      }"
+    >
+      {{ errorMessage }}
+    </div>
+  } @else if (product) {
+    <div class="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <!-- Product Image -->
+      <div class="relative">
+        <owl-carousel-o [options]="carouselOptions">
+          @for (img of product.images; track $index) {
+            <ng-template carouselSlide>
+              <img
+                [src]="img"
+                alt="{{ product.title }}"
+                class="w-full h-96 object-cover rounded-2xl shadow-lg"
+              />
+            </ng-template>
+          }
+        </owl-carousel-o>
+      </div>
+
+      <!-- Product Info -->
+      <div>
+        <h1
+          class="text-4xl font-bold mb-3"
+          [ngClass]="{
+            'text-gray-100': isDarkMode,
+            'text-gray-800': !isDarkMode
+          }"
+        >
+          {{ product.title }}
+        </h1>
+        <p
+          class="mb-6 leading-relaxed"
+          [ngClass]="{
+            'text-gray-300': isDarkMode,
+            'text-gray-600': !isDarkMode
+          }"
+        >
+          {{ product.description }}
+        </p>
+
+        <!-- Price -->
+        <div class="mb-6">
+          <span
+            class="text-3xl font-bold"
+            [ngClass]="{
+              'text-green-400': isDarkMode,
+              'text-green-600': !isDarkMode
+            }"
+          >
+            {{ product.priceAfterDiscount ? product.priceAfterDiscount : product.price }} EGP
+          </span>
+          @if (product.priceAfterDiscount) {
+            <span
+              class="line-through text-lg ml-3"
+              [ngClass]="{
+                'text-gray-500': isDarkMode,
+                'text-gray-400': !isDarkMode
+              }"
+            >
+              {{ product.price }} EGP
+            </span>
+          }
+        </div>
+
+        <!-- Ratings -->
+        <div class="flex items-center mb-6">
+          <span
+            class="text-xl"
+            [ngClass]="{
+              'text-yellow-400': isDarkMode,
+              'text-yellow-500': !isDarkMode
+            }"
+          >
+            ⭐
+          </span>
+          <span
+            class="ml-2"
+            [ngClass]="{
+              'text-gray-400': isDarkMode,
+              'text-gray-700': !isDarkMode
+            }"
+          >
+            {{ product.ratingsAverage }} / 5 ({{ product.ratingsQuantity }} reviews)
+          </span>
+        </div>
+
+        <!-- Details -->
+        <div class="space-y-2 mb-6">
+          <p
+            [ngClass]="{
+              'text-gray-300': isDarkMode,
+              'text-gray-600': !isDarkMode
+            }"
+          >
+            <span class="font-semibold">Category:</span> {{ product.category.name }}
+          </p>
+          <p
+            [ngClass]="{
+              'text-gray-300': isDarkMode,
+              'text-gray-600': !isDarkMode
+            }"
+          >
+            <span class="font-semibold">Brand:</span> {{ product.brand.name }}
+          </p>
+          <p
+            [ngClass]="{
+              'text-gray-300': isDarkMode,
+              'text-gray-600': !isDarkMode
+            }"
+          >
+            <span class="font-semibold">Available Quantity:</span> {{ product.quantity }}
+          </p>
+        </div>
+
+        <!-- Colors -->
+        @if (product.availableColors?.length) {
+          <div class="mb-6">
+            <p
+              class="font-semibold mb-2"
+              [ngClass]="{
+                'text-gray-200': isDarkMode,
+                'text-gray-700': !isDarkMode
+              }"
+            >
+              Available Colors:
+            </p>
+            <div class="flex gap-3">
+              @for (color of product.availableColors; track $index) {
+                <span
+                  class="w-10 h-10 rounded-full border-2 cursor-pointer hover:scale-110 transition-transform"
+                  [ngClass]="{
+                    'border-gray-600': isDarkMode,
+                    'border-gray-300': !isDarkMode
+                  }"
+                  [style.backgroundColor]="color"
+                ></span>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- Action Button -->
+        <div>
+          <button
+            (click)="addToCart(product._id)"
+            class="px-8 py-3 rounded-2xl shadow hover:shadow-lg transition"
+            [ngClass]="{
+              'bg-green-600 text-white hover:bg-green-700': isDarkMode,
+              'bg-green-500 text-white hover:bg-green-600': !isDarkMode
+            }"
+            [disabled]="isLoading"
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
