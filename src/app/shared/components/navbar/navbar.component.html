@@ -17,8 +17,8 @@
         </svg>
     </button>
 
-    <!-- Navbar Links -->
-    <div class="absolute top-full left-0 w-full md:static md:flex md:items-center md:space-x-8 bg-gray-50 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent transition-all duration-300 hidden md:block" id="navbar-default">
+    <!-- Navbar Links (Main Pages, Centered in Desktop) -->
+    <div class="absolute top-full left-0 w-full md:static md:flex md:items-center md:flex-1 md:justify-center bg-gray-50 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent transition-all duration-300 hidden md:block" id="navbar-default">
       <ul class="font-medium flex flex-col p-4 md:p-0 mt-0 border border-gray-100 rounded-b-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-transparent dark:border-gray-700">
         <!-- Main Pages -->
         @if(localIsLogin) {
@@ -46,7 +46,31 @@
             >Logout</span>
           </li>
         }
-        <!-- Auth Pages -->
+        <!-- Auth Pages (Mobile) -->
+        @if(!localIsLogin) {
+          @for (item of authpages; track $index) {
+            <li class="md:hidden">
+              <a
+                routerLink="{{ item.path }}"
+                routerLinkActive="font-semibold !text-green-400"
+                [ngClass]="{ 
+                  'text-green-200 hover:text-green-300': isDarkMode.value, 
+                  'text-green-800 hover:text-green-600': !isDarkMode.value 
+                }"
+                class="block py-2 px-3 transition-colors duration-200"
+              >
+                {{ item.title }}
+              </a>
+            </li>
+          }
+        }
+      </ul>
+    </div>
+
+    <!-- Auth Links, Cart, and Toggle (Desktop Right Side) -->
+    <div class="hidden md:flex items-center space-x-6 order-last">
+      <ul class="flex items-center space-x-4 text-sm font-medium">
+        <!-- Auth Pages (Desktop) -->
         @if(!localIsLogin) {
           @for (item of authpages; track $index) {
             <li>
@@ -64,12 +88,7 @@
             </li>
           }
         }
-      </ul>
-    </div>
-
-    <!-- Auth Links, Cart, and Toggle (Desktop Only) -->
-    <div class="hidden md:flex items-center space-x-6 order-last">
-      <ul class="flex items-center space-x-4 text-sm font-medium">
+        <!-- Cart and Logout (Desktop) -->
         @if(localIsLogin) {
           <!-- Cart Icon -->
           <li routerLink="/cart" class="hover:scale-105 transition-all duration-300 cursor-pointer group">
